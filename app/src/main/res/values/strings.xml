@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">TGMRentify</string>
+    <!--  Bottom Navigation  -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_profile">Profile</string>
+    <!--  Add Post Screen  -->
+    <string name="add_post_title">Add New Post</string>
+    <string name="add_post_add_picture">Add Picture</string>
+    <string name="add_post_caption_hint">Add a Post / Ask a Question</string>
+    <string name="add_post_post_now">Post Now</string>
+    <string name="onboarding_image_desc">Illustration related to property search.</string>
+    <string name="background_image_desc">Blurred image background for role selection.</string>
+    <!--  Registration  -->
+    <string name="city_area">Select City</string>
+    <string-array name="city_array">
+        <item>Colombo</item>
+        <item>Kandy</item>
+        <item>Galle</item>
+        <item>Jaffna</item>
+        <item>Matara</item>
+    </string-array>
+
+    <!-- Manual Firebase Configuration (Bypass google-services.json issues) -->
+    <string name="google_app_id" translatable="false">1:1056607652956:android:3631a5524c4a2f2d8e6a99</string>
+    <string name="gcm_defaultSenderId" translatable="false">1056607652956</string>
+    <string name="google_api_key" translatable="false">AIzaSyDv3tRcrkph42zDuviH_0rBbLvSVS7uU1c</string>
+    <string name="project_id" translatable="false">rentsmartlite</string>
+</resources>
