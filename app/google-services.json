@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1056607652956",
+    "project_id": "rentsmartlite",
+    "storage_bucket": "rentsmartlite.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056607652956:android:51395926799dafd38e6a99",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv3tRcrkph42zDuviH_0rBbLvSVS7uU1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056607652956:android:3631a5524c4a2f2d8e6a99",
+        "android_client_info": {
+          "package_name": "com.example.tgmrentify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv3tRcrkph42zDuviH_0rBbLvSVS7uU1c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

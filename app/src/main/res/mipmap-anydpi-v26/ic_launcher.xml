@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+       User requested to "remove background".
+       We set the background layer to be the Logo Image itself, so it fills the icon.
+       We set the foreground to be transparent.
+    -->
+    <background android:drawable="@drawable/ic_app_logo" />
+    <foreground android:drawable="@android:color/transparent" />
+</adaptive-icon>
