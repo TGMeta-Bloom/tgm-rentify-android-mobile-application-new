@@ -11,7 +11,22 @@
         android:name="com.example.myapplication.view.FeedFragment"
         android:label="Home"
         tools:layout="@layout/fragment_router_container">
-
     </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.view.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/landlordAddPropertyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/landlordAddPropertyFragment"
+        android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_landlord_add_property" />
 
 </navigation>
