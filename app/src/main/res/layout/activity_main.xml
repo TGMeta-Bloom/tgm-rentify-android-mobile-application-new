@@ -28,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:background="@color/app_navbar_blue"
+            app:elevation="0dp"
             app:itemIconTint="@color/bottom_nav_item_tint"
             app:itemTextColor="@color/bottom_nav_item_tint"
             app:labelVisibilityMode="unlabeled"
