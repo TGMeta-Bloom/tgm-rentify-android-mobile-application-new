@@ -9,6 +9,26 @@
         android:id="@+id/feedFragment"
         android:name="com.example.myapplication.view.TenantFeedFragment"
         android:label="Home"
+
+        tools:layout="@layout/fragment_router_container">
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.view.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/landlordAddPropertyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/landlordAddPropertyFragment"
+        android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_landlord_add_property" />
+
         tools:layout="@layout/fragment_tenant_feed">
 
         <action
@@ -18,5 +38,9 @@
 
     <fragment
         android:id="@+id/addPostFragment"
-        android:name="com.example.myapplication.view.TenantAddPostFragment"  android:label="Add Post"
-        tools:layout="@layout/fragment_tenant_add_post" /> </navigation>
+        android:name="com.example.myapplication.view.TenantAddPostFragment"  
+        android:label="Add Post"
+        tools:layout="@layout/fragment_tenant_add_post" /> </navigation>      
+
+</navigation>
+

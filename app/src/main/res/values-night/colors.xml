@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Invert common colors for Dark Mode -->
+    <color name="black">#FFFFFFFF</color> <!-- Text becomes White -->
+    <color name="white">#FF121212</color> <!-- Background becomes Dark Material Surface -->
+
+    <!-- Adjust greys for readability in dark mode -->
+    <color name="gray">#BDBDBD</color>
+   <color name="grey_200">#2C2C2C</color> <!-- Darker for input fields/cards -->
+    <color name="grey_400">#616161</color>
+    <color name="grey_700">#E0E0E0</color> <!-- Lighter for text -->
+    
+    <color name="app_text_gray">#B0B0B0</color>
+    <color name="app_divider_gray">#424242</color>
+
+    <!-- Keep accent colors, or adjust for contrast if needed -->
+    <color name="app_blue">#56BCEE</color>
+    <color name="silk_blue">#80D8FF</color> <!-- Lighter Blue for visibility -->
+    <color name="royal_blue">#8C9EFF</color>
+    <color name="dark_blue">#304FFE</color>
+    <color name="sky_blue">#40C4FF</color>
+    <color name="bright_yellow">#FFD740</color>
+    
+    <color name="colorPrimary">#7986CB</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FFD740</color>
+
+    <!-- Backgrounds that were light -->
+    <color name="window_background_light_blue">#1A1A24</color>
+    <color name="app_navbar_blue">#0D0D3A</color> <!-- Keep dark or make purely black -->
+    
+    <!-- Figma Login/Register adjustments -->
+    <color name="light_yellow_bg">#121212</color>
+    <color name="light_yellow_input">#2C2C2C</color>
+    <color name="primary_200">#FFD54F</color>
+    
+    <color name="red">#EF5350</color> <!-- Softer Red -->
+    <color name="accent_400">#29B6F6</color>
+</resources>
