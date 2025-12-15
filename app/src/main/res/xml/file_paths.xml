@@ -3,4 +3,11 @@
     <external-path
         name="external_files"
         path="." />
+
+<!--    The Android system needs a specific XML configuration to securely share a-->
+<!--    temporary file location (the currentPhotoUri) with the camera app.-->
+    <external-cache-path
+        name="my_images"
+        path="/" />
 </paths>
+
