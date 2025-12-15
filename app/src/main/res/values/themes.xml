@@ -2,7 +2,21 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TGMRentify" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        
+        <!-- System Bar Colors -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        
+        <!-- Navigation Bar Settings -->
+        <item name="android:navigationBarColor">@color/app_navbar_blue</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        
+        <!-- Text color for status bar icons (true = dark icons, false = light icons) -->
+        <item name="android:windowLightStatusBar">false</item>
+        <!-- Text color for nav bar icons (false = light icons, because navbar is dark blue) -->
+        <!-- Removed windowLightNavigationBar as it requires API 27+ and defaults to false/auto usually -->
     </style>
 
     <style name="Theme.TGMRentify" parent="Base.Theme.TGMRentify" />

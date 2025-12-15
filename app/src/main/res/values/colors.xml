@@ -1,4 +1,3 @@
-
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -47,4 +46,7 @@
     <color name="gold_accent">#FFC107</color>
     <color name="light_yellow_input">#FFFBEA</color>
     <color name="primary_200">#FFE79D</color>
+    
+    <!-- Verified Green -->
+    <color name="verified_green">#4CAF50</color>
 </resources>
