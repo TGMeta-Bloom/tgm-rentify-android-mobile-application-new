@@ -1,15 +1,18 @@
 package com.example.myapplication.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.TenantPost
 import com.example.myapplication.repository.TenantFeedRepository
 import com.google.firebase.firestore.FirebaseFirestore
 
-class TenantFeedViewModel : ViewModel() {
 
-    private val repository = TenantFeedRepository()
+class TenantFeedViewModel(application: Application) : AndroidViewModel(application) {
+
+
+    private val repository = TenantFeedRepository(application.applicationContext)
     private val _feedPosts = MutableLiveData<List<TenantPost>>()
 
     val feedPosts: LiveData<List<TenantPost>> get() = _feedPosts
