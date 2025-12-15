@@ -127,7 +127,7 @@ class LandlordPostPropertyFormFragment : Fragment() {
             binding.btnPostProperty.text = if (isLoading) "Posting..." else "Post Property"
         }
 
-        // Observe current user to set name and profile image
+        ///Observe current user to set name and profile image
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 binding.tvUserName.text = user.firstName
@@ -148,7 +148,6 @@ class LandlordPostPropertyFormFragment : Fragment() {
         viewModel.operationSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 viewModel.clearSuccess()
-                // Provide feedback to user about where to find the data
                 Toast.makeText(context, "Property Posted Successfully!", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_LandlordPostPropertyFormFragment_to_LandlordPostPropertySuccessFragment)
             }
@@ -173,7 +172,7 @@ class LandlordPostPropertyFormFragment : Fragment() {
         val rentAmount = priceStr.toDoubleOrNull() ?: 0.0
 
         val auth = FirebaseAuth.getInstance()
-        // Ensure strictly that we use the current user
+        ///Ensure strictly that we use the current user
         val currentUser = auth.currentUser
 
         if (currentUser == null) {
@@ -194,28 +193,23 @@ class LandlordPostPropertyFormFragment : Fragment() {
             location = district,
             rentAmount = rentAmount,
             propertyType = type,
-            status = status, // Use the selected status from the spinner
+            status = status,
             contactNumber = contact,
-            imageUrls = emptyList() // Default to empty if no image
+            imageUrls = emptyList()
         )
 
         if (selectedImageUri != null) {
-            // Use local conversion to File so we can use ImgBB upload
+            ///Use local conversion to File so we can use ImgBB upload
             val imageFile = uriToFile(requireContext(), selectedImageUri!!)
             if (imageFile != null) {
-                // Call the new ImgBB upload function (taking File)
+                ///Call the new ImgBB upload function (taking File)
                 viewModel.uploadImage(imageFile) { downloadUrl ->
                     if (downloadUrl != null) {
-                        // Success: Save property with the ImgBB URL
+                        /// Save property with the ImgBB URL
                         val propertyWithImage = propertyBase.copy(imageUrls = listOf(downloadUrl))
                         viewModel.saveProperty(propertyWithImage, isNew = true)
                     } else {
-                        // Failed: User requested "remove all the image null", implying we should NOT save if image fails?
-                        // OR they just meant "don't let it be null in DB".
-                        // Assuming we should FAIL gracefully and NOT save the property if upload fails, 
-                        // so the user can try again, instead of saving a broken record.
-                        // However, viewModel.uploadImage already sets _errorEvent on failure, so UI will show toast.
-                        // We do NOTHING here to prevent saving a record with no image.
+
                         Log.e("LandlordPost", "Image upload failed, aborting property save.")
                     }
                 }
@@ -223,16 +217,12 @@ class LandlordPostPropertyFormFragment : Fragment() {
                 Toast.makeText(context, "Error processing image file.", Toast.LENGTH_SHORT).show()
             }
         } else {
-            // No image selected. The user said "remove all the image null".
-            // If they mean "I want to allow posting without image", then we save with empty list (or null).
-            // If they mean "Properties MUST have images", we should block here.
-            // Assuming they meant "If I pick an image, it shouldn't be null".
-            // But usually property apps allow no-image. I'll save it with null/empty.
+
             viewModel.saveProperty(propertyBase, isNew = true)
         }
     }
 
-    // Helper to convert Uri to File for ImgBB
+    ///Helper to convert Uri to File for ImgBB
     private fun uriToFile(context: Context, uri: Uri): File? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -303,7 +293,7 @@ class LandlordPostPropertyFormFragment : Fragment() {
         }
     }
 
-    /// UPDATED: Save to Cache instead of MediaStore to avoid permission issues
+    /// Save to Cache instead of MediaStore to avoid permission issues
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
         val file = File(inContext.cacheDir, "temp_prop_img_" + System.currentTimeMillis() + ".jpg")
         file.createNewFile()

@@ -160,12 +160,12 @@ class LandlordPropertyEditFormFragment : Fragment() {
         }
 
         if (selectedImageUri != null) {
-            // Upload new image first using ImgBB (requires File)
+            ///Upload new image first using ImgBB (requires File)
             val imageFile = uriToFile(requireContext(), selectedImageUri!!)
             if (imageFile != null) {
                 viewModel.uploadImage(imageFile) { downloadUrl ->
                     if (downloadUrl != null) {
-                        // Success: Use new ImgBB URL
+                        // Use new ImgBB URL
                         val updatedUrlList = listOf(downloadUrl)
                         val updatedProperty = property.copy(
                             title = title,
@@ -179,9 +179,7 @@ class LandlordPropertyEditFormFragment : Fragment() {
                         )
                         viewModel.saveProperty(updatedProperty, isNew = false)
                     } else {
-                        // Failed: Do NOT save to avoid losing old image or saving partial data.
                         Log.e("LandlordEdit", "ImgBB upload failed, aborting update.")
-                        // Error event is already set by ViewModel, so UI will show toast.
                     }
                 }
             } else {
@@ -202,7 +200,7 @@ class LandlordPropertyEditFormFragment : Fragment() {
         }
     }
 
-    // Helper to convert Uri to File for ImgBB
+    ///Helper to convert Uri to File for ImgBB
     private fun uriToFile(context: Context, uri: Uri): File? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -225,12 +223,12 @@ class LandlordPropertyEditFormFragment : Fragment() {
             binding.btnEditProperty.text = if (isLoading) "Updating..." else "Edit Property"
         }
 
-        // Observe current user to set name and profile image
+        ///Observe current user to set name and profile image
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 binding.tvUserName.text = user.firstName
 
-                // Load Profile Image
+                ///Load Profile Image
                 val profileUrl = user.profileImageUrl
                 if (!profileUrl.isNullOrEmpty()) {
                     Glide.with(this)
@@ -239,7 +237,7 @@ class LandlordPropertyEditFormFragment : Fragment() {
                         .error(R.drawable.ic_property_profile_image)
                         .into(binding.ivProfileImage)
                 } else {
-                    // Reset to default if null
+                    ///Reset to default if null
                     binding.ivProfileImage.setImageResource(R.drawable.ic_property_profile_image)
                 }
             }
@@ -248,7 +246,6 @@ class LandlordPropertyEditFormFragment : Fragment() {
         viewModel.operationSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 viewModel.clearSuccess()
-                // Navigate to Success Screen
                 findNavController().navigate(R.id.action_LandlordPropertyEditFormFragment_to_LandlordPropertyEditSuccessFragment)
             }
         }
@@ -262,7 +259,7 @@ class LandlordPropertyEditFormFragment : Fragment() {
     }
 
     private fun validateForm(): Boolean {
-        // Only validate the contact number format
+        ///Only validate the contact number format
         val contact = binding.etContactNumber.text.toString().trim()
 
         if (contact.length != 10) {

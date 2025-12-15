@@ -17,7 +17,6 @@ class LandlordPropertyEditSuccessFragment : Fragment() {
     private var _binding: FragmentLandlordPropertyEditSuccessBinding? = null
     private val binding get() = _binding!!
 
-    // Add ViewModel
     private val viewModel: LandlordViewModel by viewModels()
 
     override fun onCreateView(

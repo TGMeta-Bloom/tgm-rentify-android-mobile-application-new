@@ -33,7 +33,6 @@ class LandlordPostPropertySuccessFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
-            // Note: Navigation destination might need adjustment if you want to go back to Dashboard
             findNavController().navigate(R.id.action_LandlordPostPropertySuccessFragment_to_LandlordAddPropertyFragment)
         }
 

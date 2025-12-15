@@ -35,21 +35,21 @@ class LandlordGridAdapter(
             binding.textPropertyTitle.text = property.title
             binding.textPropertyLocation.text = "City: ${property.location}"
 
-            // Image Loading
+            /// Image Loading
             val imageUrl = property.imageUrls?.firstOrNull()
             if (!imageUrl.isNullOrEmpty()) {
                 Glide.with(binding.imageProperty.context)
                     .load(imageUrl)
                     .placeholder(R.drawable.ic_property_image2)
-                    .error(R.drawable.ic_property_image2) // Fallback to placeholder on error
+                    .error(R.drawable.ic_property_image2)
                     .centerCrop()
                     .into(binding.imageProperty)
             } else {
-                // Default image if no URL
+                ///Default image if no URL
                 binding.imageProperty.setImageResource(R.drawable.ic_property_image2)
             }
 
-            // Handle clicks
+            ///Handle clicks
             binding.btnDetails.setOnClickListener { onDetailsClick(property) }
             binding.root.setOnClickListener { onDetailsClick(property) }
         }

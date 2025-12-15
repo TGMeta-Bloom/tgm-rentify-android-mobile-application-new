@@ -18,7 +18,6 @@ class LandlordAddPropertyFragment : Fragment() {
     private var _binding: FragmentLandlordAddPropertyBinding? = null
     private val binding get() = _binding!!
 
-    // Add ViewModel
     private val viewModel: LandlordViewModel by viewModels()
 
     override fun onCreateView(
@@ -38,7 +37,6 @@ class LandlordAddPropertyFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        ///Force "Profile" tab to be selected in Bottom Navigation (This is needed because the fragment ID does not match the menu item ID)
         activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.menu?.findItem(R.id.profileFragment)?.isChecked = true
     }
 
@@ -59,17 +57,17 @@ class LandlordAddPropertyFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                // The ID in this specific layout is text_landlord_name
+                ///The ID in this specific layout is text_landlord_name
                 binding.textLandlordName.text = user.firstName
 
-                // Load Profile Image
+                /// Load Profile Image
                 val profileUrl = user.profileImageUrl
                 if (!profileUrl.isNullOrEmpty()) {
                     Glide.with(this)
                         .load(profileUrl)
                         .placeholder(R.drawable.ic_property_profile_image)
                         .error(R.drawable.ic_property_profile_image)
-                        .into(binding.imageProfile) // Use the ID from the XML: image_profile
+                        .into(binding.imageProfile) /// Use the ID from the image_profile(XML file)
                 } else {
                     binding.imageProfile.setImageResource(R.drawable.ic_property_profile_image)
                 }

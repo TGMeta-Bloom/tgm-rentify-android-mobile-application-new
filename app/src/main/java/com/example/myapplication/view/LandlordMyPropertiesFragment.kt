@@ -44,7 +44,7 @@ class LandlordMyPropertiesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Initialize Adapter with empty list
+        ///Initialize Adapter with empty list
         adapter = LandlordPropertiesAdapter(
             emptyList(),
             onEditClick = { property ->
@@ -80,7 +80,7 @@ class LandlordMyPropertiesFragment : Fragment() {
                 // Set the user's first name to the TextView
                 binding.tvUserName.text = user.firstName
 
-                // Load Profile Image
+                ///Load Profile Image
                 val profileUrl = user.profileImageUrl
                 if (!profileUrl.isNullOrEmpty()) {
                     Glide.with(this)

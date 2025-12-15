@@ -68,7 +68,7 @@ class LandlordPropertyDeleteConfirmFragment : Fragment() {
             binding.btnConfirmDelete.text = if (isLoading) "Deleting..." else getString(R.string.btn_ok)
         }
 
-        // Observe User
+        ///Observe User
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 binding.tvUserName.text = user.firstName

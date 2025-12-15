@@ -17,7 +17,6 @@ class LandlordPropertyDeleteSuccessFragment : Fragment() {
     private var _binding: FragmentLandlordPropertyDeleteSuccessBinding? = null
     private val binding get() = _binding!!
 
-    // Add ViewModel
     private val viewModel: LandlordViewModel by viewModels()
 
     override fun onCreateView(
@@ -33,11 +32,10 @@ class LandlordPropertyDeleteSuccessFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener {
-            //Navigate to Landlord Add Property screen (or Dashboard)
             findNavController().navigate(R.id.action_LandlordPropertyDeleteSuccessFragment_to_LandlordAddPropertyFragment)
         }
 
-        // Observe User
+        ///Observe User
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 binding.tvUserName.text = user.firstName

@@ -25,7 +25,6 @@ class LandlordDashboardFragment : Fragment() {
     private var _binding: FragmentLandlordDashboardBinding? = null
     private val binding get() = _binding!!
 
-    // Updated: Use simple initialization since ViewModel has a default constructor
     private val viewModel: LandlordViewModel by viewModels()
 
     private lateinit var propertyTypeAdapter: PropertyTypeAdapter
@@ -50,12 +49,10 @@ class LandlordDashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Login check: Ensure user is logged in, otherwise content won't load correctly
-        // The Repository handles fetching data for the *current* user.
+
         val auth = FirebaseAuth.getInstance()
         if (auth.currentUser == null) {
-            // If for some reason the user isn't logged in, you might want to show a message or redirect
-            // But since LoginActivity handles the flow, we assume they are logged in here.
+
             Snackbar.make(binding.root, "No user logged in.", Snackbar.LENGTH_LONG).show()
         }
 

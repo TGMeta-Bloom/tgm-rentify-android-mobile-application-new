@@ -122,7 +122,7 @@ class LandlordViewModel : ViewModel() {
         }
     }
 
-    // UPDATED: Now takes a File and uses ImgBB via Repository
+    //Now takes a File and uses ImgBB via Repository
     fun uploadImage(imageFile: File, onResult: (String?) -> Unit) {
         _isProcessing.value = true
         viewModelScope.launch {
@@ -149,8 +149,7 @@ class LandlordViewModel : ViewModel() {
         _operationSuccess.value = false
     }
 
-    // Consolidated helper for creation if needed, but standardizing on uploadImage + saveProperty is fine.
-    // I'll keep this as a convenience wrapper if the fragment wants to use it.
+
     fun handlePropertyCreation(propertyDetails: Property, selectedImageFile: File) {
         _isProcessing.value = true
         viewModelScope.launch {

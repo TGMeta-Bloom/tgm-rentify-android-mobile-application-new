@@ -65,7 +65,6 @@ class LandlordPropertyDetailsFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            //Show the message ONLY
             Snackbar.make(binding.root, "Property saved!", Snackbar.LENGTH_SHORT).show()
 
         }

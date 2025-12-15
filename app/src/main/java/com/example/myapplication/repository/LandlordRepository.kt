@@ -146,36 +146,30 @@ class LandlordRepository {
     }
 
 
-    // In LandlordRepository.kt
 
-    // You'll need to inject the ImgBBApi client here (or get it from a DI provider)
-    private val imgBBApi = ImgBBClient.api // Assuming ImgBBClient provides the Retrofit API instance
+
+    private val imgBBApi = ImgBBClient.api /// Assuming ImgBBClient provides the Retrofit API instance
 
     suspend fun uploadPropertyImage(imageFile: File): String {
 
-        // DEBUG: Check if API Key is loaded
+        ///  Check if API Key is loaded
         val apiKey = AppConfig.IMGBB_API_KEY
-        Log.d("ImgBB", "Using API Key: '$apiKey'") // Check logcat for this!
+        Log.d("ImgBB", "Using API Key: '$apiKey'")
 
         if (apiKey.isEmpty() || apiKey == "null") {
-            // Fallback: IF YOU CANNOT FIX LOCAL.PROPERTIES, PASTE KEY HERE TEMPORARILY
-            // val hardcodedKey = "YOUR_KEY_HERE"
-            // return uploadWithKey(imageFile, hardcodedKey)
+
             throw Exception("API Key is missing! Check local.properties and Sync Gradle.")
         }
 
-        // --- If your ImgBBApi expects a File Part (standard for Retrofit file upload): ---
         val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
 
-        // 3. Execute the API Call using the key from BuildConfig (as set up earlier)
         val response = imgBBApi.uploadImage(
             apiKey = apiKey,
             image = body
         )
 
         if (response.isSuccessful) {
-            // 4. Extract the URL from the response
             return response.body()?.data?.url ?: throw Exception("Image URL not found in response.")
         } else {
             val errorBody = response.errorBody()?.string()
