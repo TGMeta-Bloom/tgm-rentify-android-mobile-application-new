@@ -18,9 +18,5 @@
 
     <fragment
         android:id="@+id/addPostFragment"
-        android:name="com.example.myapplication.view.AddPostFragment"
-        android:label="Add Post"
-        tools:layout="@layout/fragment_add_post" />
-
-
-</navigation>
+        android:name="com.example.myapplication.view.TenantAddPostFragment"  android:label="Add Post"
+        tools:layout="@layout/fragment_tenant_add_post" /> </navigation>

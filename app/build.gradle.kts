@@ -31,7 +31,7 @@ android {
         
         // Define the API Key for BuildConfig
         val imgbbKey = localProperties.getProperty("IMGBB_API_KEY") ?: ""
-        buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbKey\"")
+        buildConfigField("String", "IMGBB_API_KEY", imgbbKey)
     }
 
     buildTypes {
@@ -79,6 +79,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+
+    implementation("com.google.firebase:firebase-storage")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     
     // Glide
