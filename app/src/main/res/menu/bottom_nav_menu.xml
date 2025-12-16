@@ -7,7 +7,7 @@
         android:title="@string/bottom_nav_home" />
 
     <item
-        android:id="@+id/dashboardFragment"
+        android:id="@+id/LandlordDashboardFragment"
         android:icon="@drawable/ic_grid"
         android:title="@string/bottom_nav_dashboard" />
 

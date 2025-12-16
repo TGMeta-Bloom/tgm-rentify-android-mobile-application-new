@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@id/iv_author_avatar" />
 
         <TextView
-            android:id="@+id/tv_post_time"
+            android:id="@+id/tv_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Just now"

@@ -16,57 +16,92 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemTenantFeedPostBinding
 import com.example.myapplication.model.TenantPost
-import com.google.firebase.auth.FirebaseAuth // Needed to eventually track user ID
 
-// UPDATE: Now accepts TWO callbacks (Helpful Click AND Hide Post)
 class TenantFeedAdapter(
     private val onHelpfulClicked: (String, Int) -> Unit,
     private val onHidePost: (String) -> Unit
 ) : ListAdapter<TenantPost, TenantFeedAdapter.PostViewHolder>(DiffCallback) {
 
-    // NEW: Set to store the IDs of posts the current user has clicked during this session
+    // Set to store the IDs of posts the current user has clicked during this session
     private val clickedPostIds = mutableSetOf<String>()
 
     class PostViewHolder(private val binding: ItemTenantFeedPostBinding, val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(post: TenantPost, clickedPostIds: MutableSet<String>, onHelpfulClicked: (String, Int) -> Unit, onHidePost: (String) -> Unit) {
+        fun bind(
+            post: TenantPost,
+            clickedPostIds: MutableSet<String>,
+            onHelpfulClicked: (String, Int) -> Unit,
+            onHidePost: (String) -> Unit
+        ) {
 
-            // 1. Basic Data
-            binding.tvAuthorName.text = post.userName
+            // 1. Author Name & Caption
+            binding.tvAuthorName.text = post.userName ?: "Unknown User"
             binding.tvPostContent.text = post.caption
 
-            // Note: post.isHelpfulClicked is unreliable as it's not loaded from DB
+            // 2. FIXED: Real Timestamp Logic
+            if (post.timestamp != null) {
+                val now = System.currentTimeMillis()
+                // Calculates "5 minutes ago", "Yesterday", etc.
+                val timeAgo = DateUtils.getRelativeTimeSpanString(
+                    post.timestamp.time,
+                    now,
+                    DateUtils.MINUTE_IN_MILLIS
+                )
+                binding.tvTimestamp.text = timeAgo
+            } else {
+                binding.tvTimestamp.text = "Just now"
+            }
 
-            // 2. Check current state from the session-tracking set
+            // 3. Helper Count & State
             val isClicked = clickedPostIds.contains(post.id)
             updateHelpfulButtonStyle(isClicked)
             binding.tvHelpfulCount.text = "${post.helpfulCount} Helpful"
 
-            // 3. Time, Avatar, Image setup (unchanged)
+            // 4. FIXED: Author Avatar Loading
+            if (!post.userAvatarUrl.isNullOrEmpty()) {
+                Glide.with(context)
+                    .load(post.userAvatarUrl)
+                    .placeholder(R.drawable.ic_tenant_profile_placeholder)
+                    .error(R.drawable.ic_tenant_profile_placeholder)
+                    .circleCrop()
+                    .into(binding.ivAuthorAvatar)
+            } else {
+                // Explicitly set placeholder if no URL
+                binding.ivAuthorAvatar.setImageResource(R.drawable.ic_tenant_profile_placeholder)
+            }
 
-            // 4. Helpful Button Logic (FIXED to prevent multiple clicks)
+            // 5. FIXED: Post Image Loading (Hide ImageView if empty)
+            if (!post.postImageUrl.isNullOrEmpty()) {
+                binding.ivPostImage.visibility = View.VISIBLE
+                Glide.with(context)
+                    .load(post.postImageUrl)
+                    .placeholder(R.drawable.ic_image_placeholder)
+                    .into(binding.ivPostImage)
+            } else {
+                binding.ivPostImage.visibility = View.GONE
+            }
+
+            // 6. Helpful Button Click Logic
             binding.btnHelpful.setOnClickListener {
                 if (clickedPostIds.contains(post.id)) {
-                    // Already clicked in this session: Stop the action and inform user
                     Toast.makeText(context, "You already marked this post as helpful.", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
-                // First click:
-                clickedPostIds.add(post.id) // Mark as clicked for the rest of the session
-
-                // 1. Update local model count and UI
+                // Mark as clicked locally
+                clickedPostIds.add(post.id)
                 post.helpfulCount++
 
+                // Update UI immediately
                 binding.tvHelpfulCount.text = "${post.helpfulCount} Helpful"
-                updateHelpfulButtonStyle(true) // Set to active state
+                updateHelpfulButtonStyle(true)
 
-                // 2. Update database
+                // Update Database
                 onHelpfulClicked(post.id, post.helpfulCount)
             }
 
-            // 5. HIDE POST MENU LOGIC (unchanged)
+            // 7. Hide Post Menu Logic
             binding.btnMoreOptions.setOnClickListener { view ->
                 val popup = PopupMenu(context, view)
                 popup.menuInflater.inflate(R.menu.menu_tenant_post_options, popup.menu)
@@ -85,9 +120,8 @@ class TenantFeedAdapter(
         }
 
         private fun updateHelpfulButtonStyle(isClicked: Boolean) {
-            // ... (Style logic remains the same) ...
             if (isClicked) {
-                // ACTIVE STATE:
+                // Active State (Blue)
                 val activeBgColor = ContextCompat.getColor(context, R.color.window_background_light_blue)
                 val activeContentColor = ContextCompat.getColor(context, R.color.app_blue)
 
@@ -95,7 +129,7 @@ class TenantFeedAdapter(
                 binding.btnHelpful.setTextColor(activeContentColor)
                 binding.btnHelpful.iconTint = ColorStateList.valueOf(activeContentColor)
             } else {
-                // INACTIVE STATE:
+                // Inactive State (Gray)
                 val inactiveContentColor = ContextCompat.getColor(context, R.color.app_text_gray)
 
                 binding.btnHelpful.backgroundTintList = ColorStateList.valueOf(android.graphics.Color.TRANSPARENT)
@@ -113,7 +147,6 @@ class TenantFeedAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        // PASS the state tracking set to the view holder
         holder.bind(getItem(position), clickedPostIds, onHelpfulClicked, onHidePost)
     }
 
