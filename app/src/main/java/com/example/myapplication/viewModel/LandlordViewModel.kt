@@ -1,6 +1,5 @@
 package com.example.myapplication.viewModel
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -21,9 +20,14 @@ class LandlordViewModel : ViewModel() {
     ///Trigger to reload data(after login)
     private val _refreshTrigger = MutableLiveData<Boolean>()
 
-    ///Original LiveData from Repository, refreshed via switchMap (Use extension function switchMap directly on LiveData)
+    /// 1. GLOBAL LIST (For Dashboard) - Fetches ALL properties
     val landlordProperties: LiveData<List<Property>> = _refreshTrigger.switchMap {
-        repository.getLandlordProperties()
+        repository.getLandlordProperties() 
+    }
+
+    /// 2. MY PROPERTIES LIST (For My Properties Screen) - Fetches only LOGGED-IN USER's properties
+    val myProperties: LiveData<List<Property>> = _refreshTrigger.switchMap {
+        repository.getMyProperties()
     }
 
     ///Current Filter State
@@ -150,6 +154,7 @@ class LandlordViewModel : ViewModel() {
     }
 
 
+    @Suppress("unused")
     fun handlePropertyCreation(propertyDetails: Property, selectedImageFile: File) {
         _isProcessing.value = true
         viewModelScope.launch {
