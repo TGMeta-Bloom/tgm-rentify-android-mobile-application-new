@@ -29,7 +29,7 @@
     <color name="app_divider_gray">#424242</color>
 
     <!-- Branding Colors -->
-    <color name="app_blue">#0287FF</color> <!-- UPDATED: User requested specific blue for Dark Mode -->
+    <color name="app_blue">#2C2F47</color> <!-- UPDATED: User requested specific blue for Dark Mode -->
     <color name="silk_blue">#80D8FF</color>
     <color name="royal_blue">#8C9EFF</color>
     <color name="dark_blue">#F507296D</color>
