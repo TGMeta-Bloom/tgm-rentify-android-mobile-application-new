@@ -20,10 +20,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Force Light Mode always (since toggle was removed)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
+        // Initialize Prefs
         prefsHelper = SharedPreferencesHelper(this)
+
+        // Apply Theme based on Preferences
+        val isDarkMode = prefsHelper.isDarkMode()
+        val mode = if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(mode)
         
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -95,8 +98,27 @@ class MainActivity : AppCompatActivity() {
              showTenantHeader()
         }
 
+        // Setup Bottom Nav with Controller first for default behavior/tinting
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
+        
+        // OVERRIDE Bottom Navigation Listener to handle Role-Based Home
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            if (item.itemId == R.id.feedFragment) {
+                // Check Role
+                val currentRole = prefsHelper.getUserRole()
+                if (currentRole == "Landlord") {
+                    // Navigate to Landlord Home
+                    // Clear back stack to avoid loops if needed, or just navigate
+                    navController.navigate(R.id.landlordAddPropertyFragment)
+                    return@setOnItemSelectedListener true
+                }
+            }
+            
+            // For all other items (or Tenant role), use standard navigation
+            NavigationUI.onNavDestinationSelected(item, navController)
+            return@setOnItemSelectedListener true
+        }
     }
 
     private fun showProfileHeader() {

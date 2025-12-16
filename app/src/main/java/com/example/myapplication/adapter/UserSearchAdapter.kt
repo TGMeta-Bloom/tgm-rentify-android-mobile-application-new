@@ -1,9 +1,11 @@
 package com.example.myapplication.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +22,17 @@ class UserSearchAdapter(private val onClick: (User) -> Unit) :
         private val userName: TextView = itemView.findViewById(R.id.tv_user_name)
         private val userRole: TextView = itemView.findViewById(R.id.tv_user_role)
         private val userAvatar: CircleImageView = itemView.findViewById(R.id.iv_user_avatar)
+        private val privacyStatus: TextView = itemView.findViewById(R.id.tv_privacy_status)
         private var currentUser: User? = null
 
         init {
             itemView.setOnClickListener {
-                currentUser?.let {
-                    onClick(it)
+                currentUser?.let { user ->
+                    if (user.isProfilePublic) {
+                        onClick(user)
+                    } else {
+                        Toast.makeText(itemView.context, "This account is private", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -34,6 +41,14 @@ class UserSearchAdapter(private val onClick: (User) -> Unit) :
             currentUser = user
             userName.text = "${user.firstName} ${user.lastName}"
             userRole.text = user.role
+
+            if (user.isProfilePublic) {
+                privacyStatus.text = "Public"
+                privacyStatus.setTextColor(Color.parseColor("#4CAF50")) // Green
+            } else {
+                privacyStatus.text = "Private"
+                privacyStatus.setTextColor(Color.RED) // Red
+            }
 
             if (!user.profileImageUrl.isNullOrEmpty()) {
                 Glide.with(itemView.context)

@@ -13,10 +13,15 @@
         <item name="android:navigationBarColor">@color/app_navbar_blue</item>
         <item name="android:windowTranslucentNavigation">false</item>
         
+        <!-- Default Screen Background -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+
+        <!-- FIX: Explicitly DISABLE Force Dark in Day Theme to prevent accidental darkening -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+        
         <!-- Text color for status bar icons (true = dark icons, false = light icons) -->
         <item name="android:windowLightStatusBar">false</item>
-        <!-- Text color for nav bar icons (false = light icons, because navbar is dark blue) -->
-        <!-- Removed windowLightNavigationBar as it requires API 27+ and defaults to false/auto usually -->
     </style>
 
     <style name="Theme.TGMRentify" parent="Base.Theme.TGMRentify" />

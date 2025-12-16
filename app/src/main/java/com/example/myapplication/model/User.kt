@@ -6,7 +6,7 @@ data class User(
     val userId: String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val username: String? = null, // Added Username field
+    val username: String? = null,
     val email: String = "",
     val mobileNumber: String = "",
     val bio: String = "",
@@ -24,5 +24,9 @@ data class User(
     
     // Annotation ensures Firestore uses "isPhonePublic" instead of stripping "is" to "phonePublic"
     @get:PropertyName("isPhonePublic")
-    val isPhonePublic: Boolean = true
+    val isPhonePublic: Boolean = true,
+
+    // New Profile Visibility Field
+    @get:PropertyName("isProfilePublic")
+    val isProfilePublic: Boolean = true
 )
