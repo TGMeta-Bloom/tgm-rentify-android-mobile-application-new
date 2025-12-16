@@ -62,7 +62,9 @@ class TenantFeedFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("users").document(userId)
                 .get()
                 .addOnSuccessListener { document ->
-                    if (document.exists()) {
+                    // FIX: Check if binding is still valid before accessing it
+                    // This prevents crashes if the fragment is destroyed before the DB returns
+                    if (_binding != null && document.exists()) {
                         val name = document.getString("name") ?: "User"
                         binding.tvGreeting.text = "Hi $name!"
                     }

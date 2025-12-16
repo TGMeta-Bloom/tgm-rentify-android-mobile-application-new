@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Updated for selection highlight -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,45 +9,51 @@
     android:layout_gravity="start"
     android:orientation="vertical"
     android:background="@color/app_blue"
-    android:clickable="true"
-    android:focusable="true"
     android:paddingTop="32dp"
     android:paddingBottom="16dp">
 
-    <!-- Header -->
-    <LinearLayout
+    <!-- Header (Profile Info Only - Toggle Removed) -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/drawer_profile_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_default_profile"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="2dp" />
-
-        <TextView
-            android:id="@+id/drawer_user_name"
-            android:layout_width="0dp"
+        <!-- Profile Info Wrapper -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="Thamasha Nethmini" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/drawer_profile_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_default_profile"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/drawer_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Thamasha Nethmini" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:alpha="0.3"/>
 
     <!-- Menu Items -->
@@ -172,14 +177,12 @@
             android:textSize="16sp"/>
     </LinearLayout>
 
-    <!-- Removed Spacer to prevent hidden button -->
-    
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="48dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/white"
+        android:background="@android:color/white"
         android:alpha="0.3"/>
 
     <!-- Logout Item -->

@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     // Using ID directly to bypass potential accessor issues
     id("com.google.gms.google-services") version "4.4.2" apply false
+    id("androidx.navigation.safeargs.kotlin") version "2.8.5" apply false
 }

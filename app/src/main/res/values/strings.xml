@@ -26,4 +26,69 @@
     <string name="gcm_defaultSenderId" translatable="false">1056607652956</string>
     <string name="google_api_key" translatable="false">AIzaSyDv3tRcrkph42zDuviH_0rBbLvSVS7uU1c</string>
     <string name="project_id" translatable="false">rentsmartlite</string>
+
+<!--    ////Landlord////-->
+    <string name="price_format">Rs. %s</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="text_hello">Hello</string>
+    <string name="text_wave">👋</string>
+    <string name="text_landlord">Landlord</string>
+    <string name="text_post_property_now">Post your property Now!</string>
+    <string name="text_see_posted_properties">See your posted Properties!</string>
+
+    <string name="text_add_property_here">You can Add your Property Here...</string>
+    <string name="text_property_title">Property Title :</string>
+    <string name="hint_property_title">Cozy Apartment in Colombo 7</string>
+    <string name="text_property_description">Description of your property :</string>
+    <string name="hint_property_description">3 - bedroom apartment with sea view and rooftop gym.</string>
+    <string name="text_property_district">District of your property :</string>
+    <string name="hint_property_district">Colombo</string>
+    <string name="text_price">Price :</string>
+    <string name="hint_price">Rs. 1700000</string>
+    <string name="text_property_type">Property Type :</string>
+    <string name="text_add_property_image">Add your Property Image:</string>
+    <string name="text_contact_number">Contact Number:</string>
+    <string name="hint_contact_number">077-3344556</string>
+    <string name="text_post_property_btn">Post Property</string>
+
+    <string name="text_edit_property_here">You can Edit your Property Here...</string>
+    <string name="text_current_image">Current Image:</string>
+    <string name="text_change_image">Change Image:</string>
+    <string name="text_availability">Availability:</string>
+    <string name="text_edit_property_btn">Edit Property</string>
+
+    <string name="btn_edit">Edit</string>
+    <string name="btn_delete">Delete</string>
+
+    <string name="text_property_posted_success">Property Posted Successfully!</string>
+    <string name="text_property_deleted_success">Property Deleted Successfully!</string>
+    <string name="text_delete_confirm_message">Are you sure you want to delete this property?</string>
+    <string name="text_property_edited_success">Property Edited Successfully!</string>
+
+    <string name="content_desc_tgm_logo">TGM Logo</string>
+    <string name="content_desc_tgm_text">TGM Rentify Text</string>
+    <string name="content_desc_back_button">Back</string>
+    <string name="content_desc_profile_image">Profile Image</string>
+    <string name="content_desc_post_property">Post Property</string>
+    <string name="content_desc_view_properties">View Properties</string>
+    <string name="content_desc_property_preview">Property Image Preview</string>
+    <string name="content_desc_add_image">Add Image Button</string>
+    <string name="content_desc_success_illustration">Success Illustration</string>
+    <string name="content_desc_delete_illustration">Delete Confirmation Illustration</string>
+    <string name="content_desc_property_image">Property Main Image</string>
+    <string name="content_desc_location_icon">Location Icon</string>
+    <string name="content_desc_type_icon">Property Type Icon</string>
+    <string name="content_desc_status_icon">Availability Status Icon</string>
+    <string name="content_desc_phone_icon">Contact Phone Icon</string>
+    <string name="content_desc_save_button">Save Property Button</string>
+    <string name="content_desc_current_image">Current Property Image</string>
+    <string name="content_desc_new_image_preview">New Property Image Preview</string>
+    <string name="content_desc_change_image_btn">Change Image Button</string>
+
+
+<!--    /////////-->
+
+
 </resources>
