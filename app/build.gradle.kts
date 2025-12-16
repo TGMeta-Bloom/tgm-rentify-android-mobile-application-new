@@ -34,8 +34,6 @@ android {
         val imgbbKey = localProperties.getProperty("IMGBB_API_KEY") ?: ""
         buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbKey\"")
 
-
-        buildConfigField("String", "IMGBB_API_KEY", imgbbKey)
     }
 
     buildTypes {
