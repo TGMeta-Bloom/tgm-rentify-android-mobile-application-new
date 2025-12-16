@@ -9,35 +9,14 @@
         android:id="@+id/feedFragment"
         android:name="com.example.myapplication.view.TenantFeedFragment"
         android:label="Home"
-              
         tools:layout="@layout/fragment_tenant_feed">
-
         <action
             android:id="@+id/action_feedFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
-
-      
-        tools:layout="@layout/fragment_router_container">
         <action
-            android:id="@+id/action_feedFragment_to_addPostFragment"
-            app:destination="@id/addPostFragment" />
+            android:id="@+id/action_feedFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.example.myapplication.view.DashboardFragment"
-        android:label="Dashboard"
-        tools:layout="@layout/fragment_router_container">
-<!--        <action-->
-<!--            android:id="@+id/action_feedFragment_to_addPostFragment"-->
-<!--            app:destination="@id/addPostFragment" />-->
-        <!-- Keep this for consistency, but global action will be used -->
-        <action
-            android:id="@+id/action_dashboard_to_details"
-            app:destination="@id/LandlordPropertyDetailsFragment" />
-
-    </fragment>
-
 
     <fragment
         android:id="@+id/addPostFragment"
@@ -60,12 +39,35 @@
             app:destination="@id/LandlordAddPropertyFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_saved_properties"
+        android:name="com.example.myapplication.view.TenantSavedPropertyFragment"
+        android:label="Saved Properties"
+        tools:layout="@layout/fragment_tenant_saved_properties" />
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.myapplication.view.TenantLibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_tenant_library" />
+
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.myapplication.view.TenantAnalyticsFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_tenant_analytics" />
 
 
-<!--         ///////////////////////////////-->
-    <!-- Landlord Fragments -->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.myapplication.view.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_router_container">
+        <action
+            android:id="@+id/action_dashboard_to_details"
+            app:destination="@id/LandlordPropertyDetailsFragment" />
+    </fragment>
 
-    <!-- GLOBAL ACTION to fix navigation issues from manually swapped fragments -->
     <action
         android:id="@+id/action_global_landlord_details"
         app:destination="@id/LandlordPropertyDetailsFragment" />
@@ -107,24 +109,6 @@
             android:id="@+id/action_LandlordAddPropertyFragment_to_LandlordPropertiesFragment"
             app:destination="@id/LandlordPropertiesFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_saved_properties"
-        android:name="com.example.myapplication.view.TenantSavedPropertyFragment"
-        android:label="Saved Properties"
-        tools:layout="@layout/fragment_tenant_saved_properties" />
-
-    <fragment
-        android:id="@+id/libraryFragment"
-        android:name="com.example.myapplication.view.TenantLibraryFragment"
-        android:label="Library"
-        tools:layout="@layout/fragment_tenant_library" />
-
-    <fragment
-        android:id="@+id/analyticsFragment"
-        android:name="com.example.myapplication.view.TenantAnalyticsFragment"
-        android:label="Analytics"
-        tools:layout="@layout/fragment_tenant_analytics" />
 
     <fragment
         android:id="@+id/LandlordPostPropertyFormFragment"
@@ -234,11 +218,5 @@
         android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
         android:label="Add Property"
         tools:layout="@layout/fragment_landlord_add_property" />
-
-    <fragment
-        android:id="@+id/addPostFragment"
-        android:name="com.example.myapplication.view.TenantAddPostFragment"
-        android:label="Add Post"
-        tools:layout="@layout/fragment_tenant_add_post" />
 
 </navigation>
