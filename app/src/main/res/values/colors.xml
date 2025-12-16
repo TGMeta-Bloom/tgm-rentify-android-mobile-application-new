@@ -18,10 +18,9 @@
     <color name="colorPrimaryDark">#141B65</color>
     <color name="grey_200">#EEEEEE</color>
     <color name="colorAccent">#FFC107</color>
-    <color name="red">#EF5350</color> <!-- Softer Red -->
+    <color name="red">#EF5350</color>
     <color name="accent_400">#29B6F6</color>
     <color name="dark_red">#00780303</color>
-    <!--  Landlord Dashboard Colors  -->
     <color name="landlord_banner_bg">#014160</color>
     <color name="landlord_nav_background">#0D1B2A</color>
     <color name="landlord_subtitle_text">#B0BEC5</color>
@@ -30,23 +29,21 @@
     <color name="landlord_button_bg">#014160</color>
     <color name="landlord_plus_icon_tint">#02557E</color>
     <color name="landlord_text_stroke_color">#87A3B0</color>
-    <!--    <color name="text_color_filter_selector">#000000</color>-->
-    <!--  Placeholder, will replace with selector  -->
-    <!--  Dashboard Specific Colors  -->
     <color name="banner_background">#004D40</color>
-    <!--  Dark Teal for the banner  -->
     <color name="filter_selected_bg">#B3E5FC</color>
-    <!--  Light Blue for selected chip  -->
     <color name="filter_selected_text">#01579B</color>
-    <!--  Darker Blue for selected text  -->
     <color name="filter_unselected_bg">#F5F5F5</color>
     <color name="filter_unselected_text">#424242</color>
-    <!--  Figma Login Screen Colors  -->
     <color name="light_yellow_bg">#FFF9E6</color>
     <color name="gold_accent">#FFC107</color>
     <color name="light_yellow_input">#FFFBEA</color>
     <color name="primary_200">#FFE79D</color>
-    
-    <!-- Verified Green -->
     <color name="verified_green">#4CAF50</color>
+
+    <!-- SEMANTIC COLORS (Day) -->
+    <!-- Changed to WHITE as per user request -->
+    <color name="screen_background">#FFFFFFFF</color> 
+    <color name="surface_card">#FFFFFFFF</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#757575</color>
 </resources>

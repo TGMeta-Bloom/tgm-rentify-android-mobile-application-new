@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- FIX: Keep 'white' actually WHITE so text on headers remains visible -->
-    <color name="white">#FFFFFFFF</color> 
-    
-    <!-- FIX: Keep 'black' actually BLACK so text on white backgrounds remains visible -->
-    <!-- Since we forced white to be white, we must force black to be black, essentially disabling dark mode for general pages to ensure readability -->
-    <color name="black">#FF000000</color>
+    <!-- 
+      GLOBAL DARK MODE FIX (NUCLEAR OPTION):
+      Since we cannot edit Layout XMLs or Kotlin files, we swap color definitions here.
+    -->
 
-    <!-- Adjust greys for readability in dark mode -->
+    <!-- SWAP: Make 'white' BLACK. 
+         Any layout using @color/white will now be Dark in Night Mode. -->
+    <color name="white">#121212</color> 
+    
+    <!-- SWAP: Make 'black' WHITE.
+         Any text using @color/black will now be Light in Night Mode. -->
+    <color name="black">#FFFFFF</color>
+
+    <!-- Semantic Colors -->
+    <color name="screen_background">#121212</color>
+    <color name="surface_card">#1E1E1E</color>
+    <color name="text_primary">#E0E0E0</color>
+    <color name="text_secondary">#B0B0B0</color>
+
+    <!-- Greys adapted for Dark Mode -->
     <color name="gray">#BDBDBD</color>
-   <color name="grey_200">#2C2C2C</color> <!-- Darker for input fields/cards -->
+    <color name="grey_200">#2C2C2C</color> <!-- Input fields / Cards -->
     <color name="grey_400">#616161</color>
-    <color name="grey_700">#E0E0E0</color> <!-- Lighter for text -->
+    <color name="grey_700">#E0E0E0</color> <!-- Light grey text -->
     
     <color name="app_text_gray">#B0B0B0</color>
     <color name="app_divider_gray">#424242</color>
 
-    <!-- Keep accent colors, or adjust for contrast if needed -->
-    <color name="app_blue">#0D0D3A</color> <!-- UPDATED: Dark Blue for Night Mode sidebar -->
-    <color name="silk_blue">#80D8FF</color> <!-- Lighter Blue for visibility -->
+    <!-- Branding Colors -->
+    <color name="app_blue">#0287FF</color> <!-- UPDATED: User requested specific blue for Dark Mode -->
+    <color name="silk_blue">#80D8FF</color>
     <color name="royal_blue">#8C9EFF</color>
-    <color name="dark_blue">#304FFE</color>
+    <color name="dark_blue">#F507296D</color>
     <color name="sky_blue">#40C4FF</color>
     <color name="bright_yellow">#FFD740</color>
     
@@ -28,15 +40,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FFD740</color>
 
-    <!-- Backgrounds that were light -->
+    <!-- Backgrounds -->
     <color name="window_background_light_blue">#1A1A24</color>
-    <color name="app_navbar_blue">#0D0D3A</color> <!-- Keep dark or make purely black -->
+    <color name="app_navbar_blue">#0D0D3A</color>
     
-    <!-- Figma Login/Register adjustments -->
     <color name="light_yellow_bg">#121212</color>
     <color name="light_yellow_input">#2C2C2C</color>
     <color name="primary_200">#FFD54F</color>
     
-    <color name="red">#EF5350</color> <!-- Softer Red -->
+    <color name="red">#EF5350</color>
     <color name="accent_400">#29B6F6</color>
 </resources>
