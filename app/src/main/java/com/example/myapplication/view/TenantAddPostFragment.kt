@@ -30,33 +30,29 @@ class TenantAddPostFragment : Fragment() {
     private var _binding: FragmentTenantAddPostBinding? = null
     private val binding get() = _binding!!
 
-    // State variables
     private var selectedImageUri: Uri? = null
     private lateinit var repository: TenantFeedRepository
     private var currentUser: User? = null
-    private lateinit var currentPhotoUri: Uri // URI for camera output file
+    private lateinit var currentPhotoUri: Uri
 
     // --- ACTIVITY AND PERMISSION LAUNCHERS ---
 
-    // 1. Launcher for picking from Gallery
     private val pickImageFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) {
             handleImageUri(uri)
         }
     }
 
-    // 2. Launcher for Camera Capture
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             handleImageUri(currentPhotoUri)
         }
     }
 
-    // 3. Launcher for Permissions
     private val requestCameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                launchCamera() // Permission granted, proceed to camera
+                launchCamera()
             } else {
                 Toast.makeText(requireContext(), "Camera permission denied.", Toast.LENGTH_SHORT).show()
             }
@@ -65,7 +61,6 @@ class TenantAddPostFragment : Fragment() {
     // --- FRAGMENT LIFECYCLE ---
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        Log.d("AddPost", "onCreateView started")
         _binding = FragmentTenantAddPostBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -73,17 +68,13 @@ class TenantAddPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // INITIALIZE: Pass Context to the Repository for ImgBB/FileUtils
         repository = TenantFeedRepository(requireContext())
-
         fetchCurrentUser()
 
-        // Navigation Back
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
-        // Image Handlers: Show dialog for Camera or Gallery
         binding.btnUploadImage.setOnClickListener {
             showImageSourceDialog()
         }
@@ -93,7 +84,7 @@ class TenantAddPostFragment : Fragment() {
             showImagePreview(false, null)
         }
 
-        // Post Button
+        // --- POST BUTTON (FIXED) ---
         binding.btnPostNow.setOnClickListener {
             val caption = binding.etCaption.text.toString().trim()
             if (caption.isEmpty() && selectedImageUri == null) {
@@ -106,14 +97,20 @@ class TenantAddPostFragment : Fragment() {
             }
 
             setLoading(true)
+
+            // Call repository
             repository.addPost(caption, selectedImageUri, currentUser!!) { success, error ->
-                setLoading(false)
-                if (success) {
-                    Toast.makeText(context, "Post created!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                } else {
-                    Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
-                    Log.e("AddPost", "Post Failed: $error")
+
+                // FIXED: Run UI updates on the Main Thread to prevent crashes
+                activity?.runOnUiThread {
+                    setLoading(false)
+                    if (success) {
+                        Toast.makeText(context, "Post created!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    } else {
+                        Toast.makeText(context, "Error: $error", Toast.LENGTH_LONG).show()
+                        Log.e("AddPost", "Post Failed: $error")
+                    }
                 }
             }
         }
@@ -140,7 +137,6 @@ class TenantAddPostFragment : Fragment() {
         }
     }
 
-    // Dialog to choose image source
     private fun showImageSourceDialog() {
         val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery")
         val builder = AlertDialog.Builder(requireContext())
@@ -169,21 +165,16 @@ class TenantAddPostFragment : Fragment() {
     }
 
     private fun createImageUri(): Uri {
-        // Create a temporary file in the external cache directory
         val imageFile = File(requireContext().externalCacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
         return FileProvider.getUriForFile(
             requireContext(),
-            // FIX: Use .provider to match your AndroidManifest.xml authority:
-            "${requireContext().packageName}.provider",
+            "${requireContext().packageName}.provider", // Correct Authority
             imageFile
         )
     }
 
-    // --- EXISTING USER/VIEW MODEL LOGIC ---
-
     private fun fetchCurrentUser() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-
         FirebaseFirestore.getInstance().collection("users").document(userId).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
@@ -194,10 +185,8 @@ class TenantAddPostFragment : Fragment() {
                         email = document.getString("email") ?: "",
                         profileImageUrl = document.getString("profileImageUrl")
                     )
-
                     val fullName = "${currentUser?.firstName} ${currentUser?.lastName}".trim()
                     binding.tvCurrentUserName.text = if (fullName.isNotEmpty()) fullName else "User"
-
                     val avatarUrl = currentUser?.profileImageUrl
                     if (!avatarUrl.isNullOrEmpty() && context != null) {
                         Glide.with(requireContext()).load(avatarUrl).circleCrop().into(binding.ivCurrentUserAvatar)
