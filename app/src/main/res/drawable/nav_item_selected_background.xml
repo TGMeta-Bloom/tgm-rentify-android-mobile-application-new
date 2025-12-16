@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected State: Semi-Transparent White (25% Opacity) -->
+    <item android:state_selected="true">
+        <inset android:insetLeft="8dp" android:insetRight="8dp" android:insetTop="4dp" android:insetBottom="4dp">
+            <shape android:shape="rectangle">
+                <solid android:color="#40FFFFFF" />
+                <corners android:radius="30dp" />
+            </shape>
+        </inset>
+    </item>
+    
+    <!-- Hovered State: Same as selected -->
+    <item android:state_hovered="true">
+        <inset android:insetLeft="8dp" android:insetRight="8dp" android:insetTop="4dp" android:insetBottom="4dp">
+            <shape android:shape="rectangle">
+                <solid android:color="#40FFFFFF" />
+                <corners android:radius="30dp" />
+            </shape>
+        </inset>
+    </item>
+
+    <!-- Default State: Transparent -->
+    <item android:drawable="@android:color/transparent" />
+</selector>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_view_custom"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:minHeight="1000dp"
+    android:layout_gravity="start"
+    android:orientation="vertical"
+    android:background="@color/app_blue"
+    android:paddingTop="32dp"
+    android:paddingBottom="16dp">
+
+    <!-- Header (Profile Info Only - Toggle Removed) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Profile Info Wrapper -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/drawer_profile_photo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_default_profile"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:id="@+id/drawer_user_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Thamasha Nethmini" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white"
+        android:alpha="0.3"/>
+
+    <!-- Menu Items -->
+    <LinearLayout
+        android:id="@+id/nav_profile_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/nav_item_selected_background">
+
+        <ImageView
+            android:id="@+id/nav_profile_info_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_profile"
+            android:duplicateParentState="true"
+            app:tint="@color/nav_item_color_selector"/>
+
+        <TextView
+            android:id="@+id/nav_profile_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Profile Info"
+            android:duplicateParentState="true"
+            android:textColor="@color/nav_item_color_selector"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_privacy_security"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/nav_item_selected_background">
+
+        <ImageView
+            android:id="@+id/nav_privacy_security_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_lock"
+            android:duplicateParentState="true"
+            app:tint="@color/nav_item_color_selector"/>
+
+        <TextView
+            android:id="@+id/nav_privacy_security_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Privacy &amp; Security"
+            android:duplicateParentState="true"
+            android:textColor="@color/nav_item_color_selector"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_account_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/nav_item_selected_background">
+
+        <ImageView
+            android:id="@+id/nav_account_delete_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_delete"
+            android:duplicateParentState="true"
+            app:tint="@color/nav_item_color_selector"/>
+
+        <TextView
+            android:id="@+id/nav_account_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Account Delete"
+            android:duplicateParentState="true"
+            android:textColor="@color/nav_item_color_selector"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_app_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/nav_item_selected_background">
+
+        <ImageView
+            android:id="@+id/nav_app_settings_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_preferences"
+            android:duplicateParentState="true"
+            app:tint="@color/nav_item_color_selector"/>
+
+        <TextView
+            android:id="@+id/nav_app_settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="App Settings"
+            android:duplicateParentState="true"
+            android:textColor="@color/nav_item_color_selector"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/white"
+        android:alpha="0.3"/>
+
+    <!-- Logout Item -->
+    <LinearLayout
+        android:id="@+id/nav_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:background="@drawable/nav_item_selected_background">
+
+        <ImageView
+            android:id="@+id/nav_logout_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_lock_power_off"
+            android:duplicateParentState="true"
+            app:tint="@color/nav_item_color_selector"/>
+
+        <TextView
+            android:id="@+id/nav_logout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Logout"
+            android:duplicateParentState="true"
+            android:textColor="@color/nav_item_color_selector"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</LinearLayout>

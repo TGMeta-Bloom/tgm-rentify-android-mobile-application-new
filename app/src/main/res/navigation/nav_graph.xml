@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/feedFragment">
 
-    <!-- FIX: Point to the Container Fragment (FeedFragment) instead of TenantFeedFragment -->
     <fragment
         android:id="@+id/feedFragment"
         android:name="com.example.myapplication.view.TenantFeedFragment"
@@ -220,5 +219,17 @@
             app:popUpTo="@id/LandlordAddPropertyFragment"
             app:popUpToInclusive="true"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/landlordAddPropertyFragment"
+        android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_landlord_add_property" />
+
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.example.myapplication.view.TenantAddPostFragment"
+        android:label="Add Post"
+        tools:layout="@layout/fragment_tenant_add_post" />
 
 </navigation>
