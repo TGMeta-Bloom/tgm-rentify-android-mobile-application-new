@@ -34,6 +34,7 @@ android {
         val imgbbKey = localProperties.getProperty("IMGBB_API_KEY") ?: ""
         buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbKey\"")
 
+
     }
 
     buildTypes {
@@ -85,6 +86,9 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //Pie Chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     
     // Glide
