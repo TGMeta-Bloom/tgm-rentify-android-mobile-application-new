@@ -9,9 +9,28 @@
         android:id="@+id/feedFragment"
         android:name="com.example.myapplication.view.TenantFeedFragment"
         android:label="Home"
+        tools:layout="@layout/fragment_tenant_feed">
 
-        tools:layout="@layout/fragment_router_container">
+        <action
+            android:id="@+id/action_feedFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+
+        <action
+            android:id="@+id/action_feedFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.example.myapplication.view.TenantAddPostFragment"
+        android:label="Add Post"
+        tools:layout="@layout/fragment_tenant_add_post" />
+
+    <fragment
+        android:id="@+id/myPostsFragment"
+        android:name="com.example.myapplication.view.TenantMyPostsFragment"
+        android:label="My Posts"
+        tools:layout="@layout/fragment_tenant_my_posts" />
 
     <fragment
         android:id="@+id/profileFragment"
@@ -29,18 +48,21 @@
         android:label="Add Property"
         tools:layout="@layout/fragment_landlord_add_property" />
 
-        tools:layout="@layout/fragment_tenant_feed">
-
-        <action
-            android:id="@+id/action_feedFragment_to_addPostFragment"
-            app:destination="@id/addPostFragment" />
-    </fragment>
+    <fragment
+        android:id="@+id/nav_saved_properties"
+        android:name="com.example.myapplication.view.TenantSavedPropertyFragment"
+        android:label="Saved Properties"
+        tools:layout="@layout/fragment_tenant_saved_properties" />
 
     <fragment
-        android:id="@+id/addPostFragment"
-        android:name="com.example.myapplication.view.TenantAddPostFragment"  
-        android:label="Add Post"
-        tools:layout="@layout/fragment_tenant_add_post" /> </navigation>      
+        android:id="@+id/libraryFragment"
+        android:name="com.example.myapplication.view.TenantLibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_tenant_library" />
 
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.myapplication.view.TenantAnalyticsFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_tenant_analytics" />
 </navigation>
-

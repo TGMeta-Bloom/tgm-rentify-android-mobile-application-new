@@ -7,7 +7,7 @@
             android:icon="@drawable/ic_tenant_post"
             android:title="My Posts" />
         <item
-            android:id="@+id/savedPropertiesFragment"
+            android:id="@+id/nav_saved_properties"
             android:icon="@drawable/ic_tenant_saved_properties"
             android:title="Saved Properties" />
         <item
