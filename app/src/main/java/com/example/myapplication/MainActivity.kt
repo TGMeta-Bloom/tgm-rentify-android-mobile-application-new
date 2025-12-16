@@ -12,6 +12,8 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import kotlin.text.clear
 
 import com.example.myapplication.utils.SharedPreferencesHelper
+// Explicit import to ensure BuildConfig is resolved if referenced implicitly
+import com.example.myapplication.BuildConfig
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -40,6 +40,7 @@ import com.example.myapplication.utils.SharedPreferencesHelper
 import com.example.myapplication.viewModel.ProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import de.hdodenhof.circleimageview.CircleImageView
@@ -350,6 +351,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         btnEditInfo.setOnClickListener {
+            // Replaced Toast with Snackbar including Dismiss action
+            Snackbar.make(
+                requireView(),
+                "You can edit your contact info and phone number publicity.",
+                Snackbar.LENGTH_LONG
+            ).setAction("Dismiss") {
+                // Dimiss logic is handled automatically by Snackbar
+            }.show()
+
             layoutEditContact.visibility = View.VISIBLE
             currentUser?.let { user ->
                 etInstagram.setText(user.instagramLink)

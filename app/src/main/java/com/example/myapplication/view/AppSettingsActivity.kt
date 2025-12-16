@@ -24,7 +24,7 @@ class AppSettingsActivity : AppCompatActivity() {
     private lateinit var tvDark: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // FIX: Initialize SharedPreferences and set Night Mode BEFORE super.onCreate
+        // Initialize SharedPreferences and set Night Mode BEFORE super.onCreate
         // This ensures the Activity context is created with the correct Theme Configuration from the start.
         prefsHelper = SharedPreferencesHelper(this)
         val savedIsDark = prefsHelper.isDarkMode()
