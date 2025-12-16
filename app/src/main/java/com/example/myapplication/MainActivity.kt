@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
-        val userRole = prefsHelper.getUserRole()
+//        val userRole = prefsHelper.getUserRole()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -64,30 +64,30 @@ class MainActivity : AppCompatActivity() {
 
         ///////////////////////
 
-
-        // Use NavigationUI to connect both the bottom and side navigation
-
-        // Dynamic Start Destination based on Role
-        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-        
-        if (userRole == "Landlord") {
-            navGraph.setStartDestination(R.id.landlordAddPropertyFragment)
-        } else {
-            navGraph.setStartDestination(R.id.feedFragment)
-        }
-        navController.graph = navGraph
-
-        // Listen for navigation changes to swap the Sidebar Header
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.profileFragment) {
-                // If on Profile Screen, Show Custom Profile Header
-                showProfileHeader()
-            } else {
-                // If on Tenant Feed (or others), Show Friend's Header (Default)
-                showTenantHeader()
-            }
-        }
-        
+//
+//        // Use NavigationUI to connect both the bottom and side navigation
+//
+//        // Dynamic Start Destination based on Role
+//        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+//
+//        if (userRole == "Landlord") {
+//            navGraph.setStartDestination(R.id.landlordAddPropertyFragment)
+//        } else {
+//            navGraph.setStartDestination(R.id.feedFragment)
+//        }
+//        navController.graph = navGraph
+//
+//        // Listen for navigation changes to swap the Sidebar Header
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            if (destination.id == R.id.profileFragment) {
+//                // If on Profile Screen, Show Custom Profile Header
+//                showProfileHeader()
+//            } else {
+//                // If on Tenant Feed (or others), Show Friend's Header (Default)
+//                showTenantHeader()
+//            }
+//        }
+//
         // Ensure correct header is loaded immediately
         if (navController.currentDestination?.id == R.id.profileFragment) {
              showProfileHeader()
