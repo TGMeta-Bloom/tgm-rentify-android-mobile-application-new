@@ -5,7 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    // Using ID directly to avoid accessor issues until Sync is complete
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
 }
 
@@ -29,8 +30,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
-        // Define the API Key for BuildConfig
+        // Define the API Key for BuildConfig (Teammate's Code)
         val imgbbKey = localProperties.getProperty("IMGBB_API_KEY") ?: ""
+        buildConfigField("String", "IMGBB_API_KEY", "\"$imgbbKey\"")
+
+
         buildConfigField("String", "IMGBB_API_KEY", imgbbKey)
     }
 
@@ -87,6 +91,7 @@ dependencies {
     
     // Glide
     implementation(libs.glide)
+    implementation(libs.firebase.storage)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
