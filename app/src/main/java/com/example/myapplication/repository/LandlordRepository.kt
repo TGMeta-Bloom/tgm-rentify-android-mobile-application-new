@@ -31,8 +31,45 @@ class LandlordRepository {
         get() = auth.currentUser?.uid
 
 
-    ///  Fetch properties for the currently logged-in landlord
+    ///  Fetch ALL properties (For Dashboard / Global Feed)
     fun getLandlordProperties(): LiveData<List<Property>> {
+        val propertiesLiveData = MutableLiveData<List<Property>>()
+        
+        propertiesCollection
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("LandlordRepo", "Listen failed.", error)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null) {
+                    val propertyList = snapshot.documents.mapNotNull { doc ->
+                        try {
+                            Property(
+                                propertyId = doc.getString("propertyId") ?: doc.id,
+                                userId = doc.getString("userId") ?: "",
+                                title = doc.getString("title") ?: "",
+                                description = doc.getString("description") ?: "",
+                                location = doc.getString("location") ?: "",
+                                rentAmount = doc.getDouble("rentAmount") ?: 0.0,
+                                propertyType = doc.getString("propertyType") ?: "Apartment",
+                                imageUrls = (doc.get("imageUrls") as? List<String>) ?: null,
+                                status = doc.getString("status") ?: "Available",
+                                contactNumber = doc.getString("contactNumber") ?: ""
+                            )
+                        } catch (e: Exception) {
+                            Log.e("LandlordRepo", "Error mapping document: ${doc.id}", e)
+                            null
+                        }
+                    }
+                    propertiesLiveData.value = propertyList
+                }
+            }
+        return propertiesLiveData
+    }
+
+    /// Fetch ONLY properties created by the current user (For "My Properties" screen)
+    fun getMyProperties(): LiveData<List<Property>> {
         val propertiesLiveData = MutableLiveData<List<Property>>()
         val currentId = currentUserId ?: return propertiesLiveData
 
@@ -55,7 +92,7 @@ class LandlordRepository {
                                 location = doc.getString("location") ?: "",
                                 rentAmount = doc.getDouble("rentAmount") ?: 0.0,
                                 propertyType = doc.getString("propertyType") ?: "Apartment",
-                                imageUrls = (doc.get("imageUrls") as? List<String>) ?: null, /// Keep null for now as per previous fix
+                                imageUrls = (doc.get("imageUrls") as? List<String>) ?: null,
                                 status = doc.getString("status") ?: "Available",
                                 contactNumber = doc.getString("contactNumber") ?: ""
                             )
@@ -145,10 +182,7 @@ class LandlordRepository {
         return ref.downloadUrl.await().toString()
     }
 
-
-
-
-    private val imgBBApi = ImgBBClient.api /// Assuming ImgBBClient provides the Retrofit API instance
+    private val imgBBApi = ImgBBClient.api 
 
     suspend fun uploadPropertyImage(imageFile: File): String {
 
