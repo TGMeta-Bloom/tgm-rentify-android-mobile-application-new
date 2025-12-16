@@ -65,7 +65,7 @@ class LandlordMyPropertiesFragment : Fragment() {
 
     private fun observeViewModel() {
         ///Observe Real Data from Firestore
-        viewModel.landlordProperties.observe(viewLifecycleOwner) { properties ->
+        viewModel.myProperties.observe(viewLifecycleOwner) { properties ->
             if (properties.isNullOrEmpty()) {
                 ///Show empty state if needed, or just clear list
                 adapter.updateProperties(emptyList())
