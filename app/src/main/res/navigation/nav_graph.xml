@@ -9,8 +9,10 @@
         android:id="@+id/feedFragment"
         android:name="com.example.myapplication.view.TenantFeedFragment"
         android:label="Home"
-
-        tools:layout="@layout/fragment_router_container">
+        tools:layout="@layout/fragment_tenant_feed">
+        <action
+            android:id="@+id/action_feedFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
     </fragment>
 
     <fragment
@@ -29,18 +31,10 @@
         android:label="Add Property"
         tools:layout="@layout/fragment_landlord_add_property" />
 
-        tools:layout="@layout/fragment_tenant_feed">
-
-        <action
-            android:id="@+id/action_feedFragment_to_addPostFragment"
-            app:destination="@id/addPostFragment" />
-    </fragment>
-
     <fragment
         android:id="@+id/addPostFragment"
-        android:name="com.example.myapplication.view.TenantAddPostFragment"  
+        android:name="com.example.myapplication.view.TenantAddPostFragment"
         android:label="Add Post"
-        tools:layout="@layout/fragment_tenant_add_post" /> </navigation>      
+        tools:layout="@layout/fragment_tenant_add_post" />
 
 </navigation>
-
