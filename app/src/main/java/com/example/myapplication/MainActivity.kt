@@ -1,32 +1,109 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.utils.SharedPreferencesHelper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var prefsHelper: SharedPreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Force Light Mode always (since toggle was removed)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
+        prefsHelper = SharedPreferencesHelper(this)
+        
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
+        val userRole = prefsHelper.getUserRole()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // API: Fetch User Profile Name (Mocking the API call here)
-        val headerView = binding.navView.getHeaderView(0)
-        val nameText = headerView.findViewById<TextView>(R.id.tv_nav_user_name)
-        nameText.text = "Gothami Chamodika"
+        // Dynamic Start Destination based on Role
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+        
+        if (userRole == "Landlord") {
+            navGraph.setStartDestination(R.id.landlordAddPropertyFragment)
+        } else {
+            navGraph.setStartDestination(R.id.feedFragment)
+        }
+        navController.graph = navGraph
 
-        // Use NavigationUI to connect both the bottom and side navigation
+        // Listen for navigation changes to swap the Sidebar Header
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.profileFragment) {
+                // If on Profile Screen, Show Custom Profile Header
+                showProfileHeader()
+            } else {
+                // If on Tenant Feed (or others), Show Friend's Header (Default)
+                showTenantHeader()
+            }
+        }
+        
+        // Ensure correct header is loaded immediately
+        if (navController.currentDestination?.id == R.id.profileFragment) {
+             showProfileHeader()
+        } else {
+             showTenantHeader()
+        }
+
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
+    }
+
+    private fun showProfileHeader() {
+        val currentHeader = if (binding.navView.headerCount > 0) binding.navView.getHeaderView(0) else null
+        
+        if (currentHeader == null || currentHeader.id != R.id.nav_view_custom) {
+            
+            while (binding.navView.headerCount > 0) {
+                 binding.navView.removeHeaderView(binding.navView.getHeaderView(0))
+            }
+
+            // Inflate Custom Header (without toggle logic)
+            val newHeader = binding.navView.inflateHeaderView(R.layout.nav_drawer_custom_layout)
+            setupUserName(newHeader)
+        }
+    }
+
+    private fun showTenantHeader() {
+        val currentHeader = if (binding.navView.headerCount > 0) binding.navView.getHeaderView(0) else null
+        
+        if (currentHeader != null && currentHeader.id == R.id.nav_view_custom) {
+            binding.navView.removeHeaderView(currentHeader)
+            val newHeader = binding.navView.inflateHeaderView(R.layout.nav_tenant_header_main)
+            setupUserName(newHeader)
+        } else if (currentHeader == null) {
+             val newHeader = binding.navView.inflateHeaderView(R.layout.nav_tenant_header_main)
+             setupUserName(newHeader)
+        }
+    }
+
+    private fun setupUserName(headerView: View) {
+        var nameText = headerView.findViewById<TextView>(R.id.tv_nav_user_name)
+        if (nameText == null) {
+            nameText = headerView.findViewById<TextView>(R.id.drawer_user_name)
+        }
+        
+        if (nameText != null) {
+            val userName = prefsHelper.getUserName()
+            if (!userName.isNullOrEmpty()) {
+                nameText.text = userName
+            } else {
+                nameText.text = "Welcome"
+            }
+        }
     }
 }

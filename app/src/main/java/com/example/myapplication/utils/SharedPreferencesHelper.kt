@@ -19,6 +19,9 @@ class SharedPreferencesHelper(context: Context) {
         private const val KEY_USER_ID = "user_id"
         private const val KEY_USER_EMAIL = "user_email"
         private const val KEY_USER_NAME = "user_name"
+        
+        // Theme
+        private const val KEY_IS_DARK_MODE = "is_dark_mode"
     }
 
     /**
@@ -117,6 +120,17 @@ class SharedPreferencesHelper(context: Context) {
      */
     fun isLoggedIn(): Boolean {
         return getAuthToken() != null
+    }
+
+    // ----------------------------------------------------------------
+    // Theme Management
+    // ----------------------------------------------------------------
+    fun setDarkMode(isDark: Boolean) {
+        sharedPreferences.edit().putBoolean(KEY_IS_DARK_MODE, isDark).apply()
+    }
+
+    fun isDarkMode(): Boolean {
+        return sharedPreferences.getBoolean(KEY_IS_DARK_MODE, false) // Default to Light
     }
 
     /**

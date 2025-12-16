@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Invert common colors for Dark Mode -->
-    <color name="black">#FFFFFFFF</color> <!-- Text becomes White -->
-    <color name="white">#FF121212</color> <!-- Background becomes Dark Material Surface -->
+    <!-- FIX: Keep 'white' actually WHITE so text on headers remains visible -->
+    <color name="white">#FFFFFFFF</color> 
+    
+    <!-- FIX: Keep 'black' actually BLACK so text on white backgrounds remains visible -->
+    <!-- Since we forced white to be white, we must force black to be black, essentially disabling dark mode for general pages to ensure readability -->
+    <color name="black">#FF000000</color>
 
     <!-- Adjust greys for readability in dark mode -->
     <color name="gray">#BDBDBD</color>
@@ -14,7 +17,7 @@
     <color name="app_divider_gray">#424242</color>
 
     <!-- Keep accent colors, or adjust for contrast if needed -->
-    <color name="app_blue">#56BCEE</color>
+    <color name="app_blue">#0D0D3A</color> <!-- UPDATED: Dark Blue for Night Mode sidebar -->
     <color name="silk_blue">#80D8FF</color> <!-- Lighter Blue for visibility -->
     <color name="royal_blue">#8C9EFF</color>
     <color name="dark_blue">#304FFE</color>
