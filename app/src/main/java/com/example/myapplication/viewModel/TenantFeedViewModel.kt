@@ -1,4 +1,4 @@
-package com.example.myapplication.viewmodel
+package com.example.myapplication.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,16 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.model.TenantPost
 import com.example.myapplication.repository.TenantFeedRepository
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 class TenantFeedViewModel(application: Application) : AndroidViewModel(application) {
-
 
     private val repository = TenantFeedRepository(application.applicationContext)
     private val _feedPosts = MutableLiveData<List<TenantPost>>()
 
     val feedPosts: LiveData<List<TenantPost>> get() = _feedPosts
+
+    init {
+        loadFeed()
+    }
 
     fun loadFeed() {
         repository.getFeedPosts { posts ->
@@ -24,19 +25,13 @@ class TenantFeedViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun updateHelpfulCount(postId: String, newCount: Int) {
-        FirebaseFirestore.getInstance().collection("posts")
-            .document(postId)
-            .update("helpfulCount", newCount)
-            .addOnFailureListener { e ->
-                android.util.Log.e("ViewModel", "Error updating count", e)
-            }
+        // Use repository now!
+        repository.updateHelpfulCount(postId, newCount)
     }
 
     fun hidePost(postId: String) {
         val currentList = _feedPosts.value?.toMutableList() ?: return
-        // Remove the post with the matching ID
         currentList.removeAll { it.id == postId }
-        // Update the LiveData so the UI refreshes
         _feedPosts.value = currentList
     }
 }

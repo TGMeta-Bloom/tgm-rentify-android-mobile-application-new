@@ -1,31 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E3F2FD">
-
-    <TextView
-        android:id="@+id/text_dashboard"
-        android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@android:color/white" tools:context=".view.LandlordDashboardFragment">
+    <!--  1. Top App Bar / Header  -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Landlord Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(Placeholder for Friend's Code)"
-        android:textSize="16sp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/text_dashboard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:cardElevation="4dp" app:cardCornerRadius="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:orientation="horizontal"
+            android:paddingVertical="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+            <ImageView android:layout_width="wrap_content" android:layout_height="80dp" android:adjustViewBounds="true" android:contentDescription="TGM Logo" android:src="@drawable/ic_property_tgm_logo_new"/>
+            <ImageView android:layout_width="wrap_content" android:layout_height="30dp" android:layout_marginStart="8dp" android:adjustViewBounds="true" android:contentDescription="TGM Rentify Text" android:src="@drawable/ic_tgm_rentify_property"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <!--  2. Scrollable Content  -->
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="0dp" android:fillViewport="true" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@id/header_container">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingBottom="80dp">
+            <!--  Padding for FAB  -->
+            <!--  Blue Promo Banner  -->
+            <androidx.cardview.widget.CardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:layout_marginTop="20dp" app:cardBackgroundColor="#014160" app:cardCornerRadius="24dp" app:cardElevation="0dp">
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp">
+                    <TextView android:id="@+id/banner_title" android:layout_width="0dp" android:layout_height="wrap_content" android:text="Find your next\nhome. List with\nconfidence." android:textSize="22sp" android:textStyle="bold" android:textColor="@android:color/white" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toStartOf="@+id/banner_image" android:layout_marginEnd="12dp"/>
+                    <TextView android:id="@+id/banner_subtitle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="List in minutes, screen faster,\nand manage bookings with\nease." android:textSize="12sp" android:textColor="#FFFFFFFF" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/banner_title" app:layout_constraintEnd_toEndOf="@id/banner_title"/>
+                    <!--  Banner Image (Building)  -->
+                    <androidx.cardview.widget.CardView android:id="@+id/banner_image" android:layout_width="140dp" android:layout_height="110dp" app:cardCornerRadius="8dp" app:cardElevation="0dp" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+                        <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:src="@drawable/ic_property_image1" android:contentDescription="Building Image"/>
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <!--  Filter Chips (All, Apartment, House...)  -->
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view_filters" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:clipToPadding="false" android:orientation="horizontal" android:paddingHorizontal="16dp" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" tools:listitem="@layout/landlord_item_property_type_filter"/>
+            <!--  Property Grid  -->
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view_landlord_properties_grid" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="12dp" android:layout_marginTop="16dp" android:nestedScrollingEnabled="false" app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" app:spanCount="2" tools:itemCount="4" tools:listitem="@layout/landlord_item_property_grid"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

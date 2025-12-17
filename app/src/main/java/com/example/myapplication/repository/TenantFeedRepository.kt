@@ -3,24 +3,23 @@ package com.example.myapplication.repository
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.model.TenantPost
 import com.example.myapplication.model.User
 import com.example.myapplication.network.ImgBBClient
 import com.example.myapplication.utils.FileUtils
-import com.example.myapplication.BuildConfig
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class TenantFeedRepository(private val context: Context) {
 
     private val db = FirebaseFirestore.getInstance()
 
-    // ADD POST (NOW USING IMGBB VIA COROUTINES)
+    // --- 1. ADD POST ---
     fun addPost(
         caption: String,
         imageUri: Uri?,
@@ -29,14 +28,10 @@ class TenantFeedRepository(private val context: Context) {
     ) {
         val postId = db.collection("posts").document().id
 
-        // Launch a coroutine for the network operation
         CoroutineScope(Dispatchers.IO).launch {
             if (imageUri != null) {
                 try {
-                    // Use FileUtils to convert URI to a Multipart part
                     val imagePart = FileUtils.uriToMultipart(context, imageUri)
-
-                    // Call the suspend function from your friend's API interface
                     val response = ImgBBClient.api.uploadImage(
                         apiKey = BuildConfig.IMGBB_API_KEY,
                         image = imagePart
@@ -44,23 +39,23 @@ class TenantFeedRepository(private val context: Context) {
 
                     if (response.isSuccessful && response.body()?.success == true) {
                         val imageUrl = response.body()?.data?.url ?: ""
-                        // Success: Save post data to Firestore
                         savePostToFirestore(postId, caption, imageUrl, user, onComplete)
                     } else {
-                        // Failure
-                        onComplete(false, "Image upload failed: ${response.message()}")
+                        val errorCode = response.code()
+                        val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                        Log.e("UploadDebug", "ImgBB Failed. Code: $errorCode, Body: $errorBody")
+                        onComplete(false, "Upload failed: $errorCode - $errorBody")
                     }
                 } catch (e: Exception) {
+                    Log.e("UploadDebug", "Exception during upload", e)
                     onComplete(false, "Upload error: ${e.message}")
                 }
             } else {
-                // No Image, save directly
                 savePostToFirestore(postId, caption, "", user, onComplete)
             }
         }
     }
 
-    // SAVE POST TO FIRESTORE (Remains the same)
     private fun savePostToFirestore(
         postId: String,
         caption: String,
@@ -87,7 +82,7 @@ class TenantFeedRepository(private val context: Context) {
             .addOnFailureListener { onComplete(false, it.message) }
     }
 
-    // GET FEED POSTS (Remains the same)
+    // --- 2. GET FEED POSTS ---
     fun getFeedPosts(onResult: (List<TenantPost>) -> Unit) {
         db.collection("posts")
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -97,33 +92,120 @@ class TenantFeedRepository(private val context: Context) {
                     onResult(emptyList())
                     return@addSnapshotListener
                 }
-
-                val posts = snapshot.documents.mapNotNull { doc ->
-                    try {
-                        val id = doc.getString("id") ?: doc.id
-                        val userId = doc.getString("userId") ?: ""
-                        val userName = doc.getString("userName") ?: "Unknown"
-                        val userAvatarUrl = doc.getString("userAvatarUrl") ?: ""
-                        val caption = doc.getString("caption") ?: ""
-                        val postImageUrl = doc.getString("postImageUrl") ?: ""
-                        val helpfulCount = doc.getLong("helpfulCount")?.toInt() ?: 0
-                        val timestamp = doc.getTimestamp("timestamp")?.toDate()
-
-                        TenantPost(
-                            id = id,
-                            userId = userId,
-                            userName = userName,
-                            userAvatarUrl = userAvatarUrl,
-                            caption = caption,
-                            postImageUrl = postImageUrl,
-                            timestamp = timestamp,
-                            helpfulCount = helpfulCount
-                        )
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
+                val posts = parseSnapshotToPosts(snapshot)
                 onResult(posts)
             }
+    }
+
+    // --- 3. GET USER POSTS ---
+    fun getUserPosts(userId: String, onResult: (List<TenantPost>) -> Unit) {
+        db.collection("posts")
+            .whereEqualTo("userId", userId)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                onResult(parseSnapshotToPosts(snapshot))
+            }
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Error getting user posts", e)
+                onResult(emptyList())
+            }
+    }
+
+    // --- 4. DELETE POST ---
+    fun deletePost(postId: String, onResult: (Boolean) -> Unit) {
+        db.collection("posts").document(postId)
+            .delete()
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener {
+                Log.e("Repository", "Error deleting post", it)
+                onResult(false)
+            }
+    }
+
+    // --- 5. UPDATE HELPFUL COUNT ---
+    fun updateHelpfulCount(postId: String, newCount: Int) {
+        db.collection("posts").document(postId)
+            .update("helpfulCount", newCount)
+            .addOnFailureListener { e ->
+                Log.e("Repository", "Error updating helpful count", e)
+            }
+    }
+
+    // --- 6. CHECK IF SAVED (For Property Details Page) ---
+    fun isPropertySaved(propertyId: String, userId: String, onResult: (Boolean) -> Unit) {
+        // We use a unique ID "userId_propertyId" so we can find it instantly without a query
+        val uniqueSaveId = "${userId}_${propertyId}"
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .get()
+            .addOnSuccessListener { doc ->
+                onResult(doc.exists())
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
+    // --- 7. SAVE PROPERTY (Bookmark) ---
+    fun saveProperty(user: User, property: TenantPost, onResult: (Boolean) -> Unit) {
+        // Create the unique ID
+        val uniqueSaveId = "${user.userId}_${property.id}"
+
+        // Create data object matching your SavedProperty model
+        val savedData = hashMapOf(
+            "id" to uniqueSaveId,             // Matches @DocumentId
+            "userId" to user.userId,          // Required for your query
+            "propertyId" to property.id,
+            "title" to (property.caption.take(50) ?: "Property"),
+            "location" to "Colombo",          // Default or fetch from property
+            "imageUrl" to property.postImageUrl,
+            "rentAmount" to 0.0               // Default or fetch
+        )
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .set(savedData)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
+    }
+
+    // --- 8. UNSAVE PROPERTY ---
+    fun unsaveProperty(userId: String, propertyId: String, onResult: (Boolean) -> Unit) {
+        val uniqueSaveId = "${userId}_${propertyId}"
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .delete()
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
+    }
+
+    // --- HELPER: Parse Snapshot ---
+    private fun parseSnapshotToPosts(snapshot: com.google.firebase.firestore.QuerySnapshot): List<TenantPost> {
+        return snapshot.documents.mapNotNull { doc ->
+            try {
+                val id = doc.getString("id") ?: doc.id
+                val userId = doc.getString("userId") ?: ""
+                val userName = doc.getString("userName") ?: "Unknown"
+                val userAvatarUrl = doc.getString("userAvatarUrl") ?: ""
+                val caption = doc.getString("caption") ?: ""
+                val postImageUrl = doc.getString("postImageUrl") ?: ""
+                val helpfulCount = doc.getLong("helpfulCount")?.toInt() ?: 0
+                val timestamp = doc.getTimestamp("timestamp")?.toDate()
+
+                TenantPost(
+                    id = id,
+                    userId = userId,
+                    userName = userName,
+                    userAvatarUrl = userAvatarUrl,
+                    caption = caption,
+                    postImageUrl = postImageUrl,
+                    timestamp = timestamp,
+                    helpfulCount = helpfulCount
+                )
+            } catch (e: Exception) {
+                Log.e("Repository", "Error parsing post document: ${doc.id}", e)
+                null
+            }
+        }
     }
 }

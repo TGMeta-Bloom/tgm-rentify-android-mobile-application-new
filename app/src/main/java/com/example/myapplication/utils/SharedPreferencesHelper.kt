@@ -154,4 +154,14 @@ class SharedPreferencesHelper(context: Context) {
     fun clear() {
         sharedPreferences.edit().clear().apply()
     }
+
+    // Add these inside SharedPreferencesHelper class
+
+    fun getProfileImageUrl(): String? {
+        return sharedPreferences.getString("profile_image_url", null)
+    }
+
+    fun saveProfileImageUrl(url: String) {
+        sharedPreferences.edit().putString("profile_image_url", url).apply()
+    }
 }
