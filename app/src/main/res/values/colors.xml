@@ -42,7 +42,7 @@
 
     <!-- SEMANTIC COLORS (Day) -->
     <!-- Changed to WHITE as per user request -->
-    <color name="screen_background">#FFFFFFFF</color> 
+    <color name="screen_background">#FFFFFFFF</color>
     <color name="surface_card">#FFFFFFFF</color>
     <color name="text_primary">#000000</color>
     <color name="text_secondary">#757575</color>

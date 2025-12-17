@@ -37,4 +37,11 @@
         android:label="Add Post"
         tools:layout="@layout/fragment_tenant_add_post" />
 
+    <!-- Added Missing Landlord Dashboard -->
+    <fragment
+        android:id="@+id/LandlordDashboardFragment"
+        android:name="com.example.myapplication.view.LandlordDashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_landlord_dashboard" />
+
 </navigation>

@@ -135,9 +135,8 @@ class ProfileInfoActivity : AppCompatActivity() {
             
             result.onSuccess {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-                if (it.contains("Updated Successfully", true)) {
-                     // finish() 
-                }
+                // FIX: Restored automatic navigation to Profile Screen on success
+                finish() 
             }.onFailure {
                 Toast.makeText(this, "Update Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }

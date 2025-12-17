@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -9,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.utils.SharedPreferencesHelper
-// Explicit import to ensure BuildConfig is resolved if referenced implicitly
+// Explicit import to ensure BuildConfig is resolved
 import com.example.myapplication.BuildConfig
 
 class MainActivity : AppCompatActivity() {
@@ -22,29 +23,40 @@ class MainActivity : AppCompatActivity() {
         // Initialize Prefs
         prefsHelper = SharedPreferencesHelper(this)
 
-        // Apply Theme based on Preferences
-        val isDarkMode = prefsHelper.isDarkMode()
-        val mode = if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        AppCompatDelegate.setDefaultNightMode(mode)
+        // FIX: FORCE DARK MODE ALWAYS (Ignore internal setting)
+        // This ensures the app always looks like "Image 2" (Dark Theme)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
-        val userRole = prefsHelper.getUserRole()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
         // Dynamic Start Destination based on Role
-        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-        
-        if (userRole == "Landlord") {
-            navGraph.setStartDestination(R.id.landlordAddPropertyFragment)
-        } else {
-            navGraph.setStartDestination(R.id.feedFragment)
+        val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val userRole = sharedPref.getString("user_role", "tenant")
+
+        if (savedInstanceState == null) {
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
+            if (userRole.equals("Landlord", ignoreCase = true)) {
+                navGraph.setStartDestination(R.id.LandlordDashboardFragment)
+            } else {
+                navGraph.setStartDestination(R.id.feedFragment)
+            }
+            navController.graph = navGraph
         }
-        navController.graph = navGraph
+
+        // Setup Menus based on Role (UI only, doesn't affect navigation state)
+        if (userRole.equals("Landlord", ignoreCase = true)) {
+            binding.bottomNavigation.menu.clear()
+            binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_landlord)
+        } else {
+            binding.bottomNavigation.menu.clear()
+            binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu)
+        }
 
         // Listen for navigation changes to swap the Sidebar Header
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -56,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 showTenantHeader()
             }
         }
-        
+
         // Ensure correct header is loaded immediately
         if (navController.currentDestination?.id == R.id.profileFragment) {
              showProfileHeader()
@@ -68,26 +80,17 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
         
-        // OVERRIDE Bottom Navigation Listener to handle Role-Based Home
+        // Standard NavigationUI behavior
         binding.bottomNavigation.setOnItemSelectedListener { item ->
-            if (item.itemId == R.id.feedFragment) {
-                // Check Role
-                val currentRole = prefsHelper.getUserRole()
-                if (currentRole == "Landlord") {
-                    // Navigate to Landlord Home
-                    // Clear back stack to avoid loops if needed, or just navigate
-                    navController.navigate(R.id.landlordAddPropertyFragment)
-                    return@setOnItemSelectedListener true
-                }
-            }
-            
-            // For all other items (or Tenant role), use standard navigation
             NavigationUI.onNavDestinationSelected(item, navController)
             return@setOnItemSelectedListener true
         }
     }
 
     private fun showProfileHeader() {
+        // Clear standard menu items because Profile uses a custom layout inside the header
+        binding.navView.menu.clear()
+
         val currentHeader = if (binding.navView.headerCount > 0) binding.navView.getHeaderView(0) else null
         
         if (currentHeader == null || currentHeader.id != R.id.nav_view_custom) {
@@ -105,13 +108,24 @@ class MainActivity : AppCompatActivity() {
     private fun showTenantHeader() {
         val currentHeader = if (binding.navView.headerCount > 0) binding.navView.getHeaderView(0) else null
         
-        if (currentHeader != null && currentHeader.id == R.id.nav_view_custom) {
-            binding.navView.removeHeaderView(currentHeader)
+        // Check if we need to swap the header OR if the menu is missing
+        if (currentHeader == null || currentHeader.id == R.id.nav_view_custom) {
+            // We are switching FROM Profile TO Tenant (or initial load)
+            if (currentHeader != null) {
+                binding.navView.removeHeaderView(currentHeader)
+            }
             val newHeader = binding.navView.inflateHeaderView(R.layout.nav_tenant_header_main)
             setupUserName(newHeader)
-        } else if (currentHeader == null) {
-             val newHeader = binding.navView.inflateHeaderView(R.layout.nav_tenant_header_main)
-             setupUserName(newHeader)
+            
+            // RESTORE Standard Menu
+            binding.navView.menu.clear()
+            binding.navView.inflateMenu(R.menu.nav_drawer_menu_tenant)
+            
+        } else {
+             // Header is already correct (Tenant Header), but CHECK THE MENU
+             if (binding.navView.menu.size() == 0) {
+                 binding.navView.inflateMenu(R.menu.nav_drawer_menu_tenant)
+             }
         }
     }
 
