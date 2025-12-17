@@ -5,10 +5,10 @@
       Since we cannot edit Layout XMLs or Kotlin files, we swap color definitions here.
     -->
 
-    <!-- SWAP: Make 'white' BLACK. 
+    <!-- SWAP: Make 'white' BLACK.
          Any layout using @color/white will now be Dark in Night Mode. -->
-    <color name="white">#121212</color> 
-    
+    <color name="white">#121212</color>
+
     <!-- SWAP: Make 'black' WHITE.
          Any text using @color/black will now be Light in Night Mode. -->
     <color name="black">#FFFFFF</color>
@@ -24,7 +24,7 @@
     <color name="grey_200">#2C2C2C</color> <!-- Input fields / Cards -->
     <color name="grey_400">#616161</color>
     <color name="grey_700">#E0E0E0</color> <!-- Light grey text -->
-    
+
     <color name="app_text_gray">#B0B0B0</color>
     <color name="app_divider_gray">#424242</color>
 
@@ -35,7 +35,7 @@
     <color name="dark_blue">#F507296D</color>
     <color name="sky_blue">#40C4FF</color>
     <color name="bright_yellow">#FFD740</color>
-    
+
     <color name="colorPrimary">#7986CB</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FFD740</color>
@@ -43,11 +43,11 @@
     <!-- Backgrounds -->
     <color name="window_background_light_blue">#1A1A24</color>
     <color name="app_navbar_blue">#0D0D3A</color>
-    
+
     <color name="light_yellow_bg">#121212</color>
     <color name="light_yellow_input">#2C2C2C</color>
     <color name="primary_200">#FFD54F</color>
-    
+
     <color name="red">#EF5350</color>
     <color name="accent_400">#29B6F6</color>
 </resources>

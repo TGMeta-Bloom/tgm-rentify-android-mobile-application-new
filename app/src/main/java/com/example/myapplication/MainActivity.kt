@@ -14,7 +14,7 @@ import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.utils.SharedPreferencesHelper
-// Explicit import to ensure BuildConfig is resolved if referenced implicitly
+// Explicit import to ensure BuildConfig is resolved
 import com.example.myapplication.BuildConfig
 
 class MainActivity : AppCompatActivity() {
@@ -48,11 +48,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Get Role
+        // Dynamic Start Destination based on Role
         val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val userRole = sharedPref.getString("user_role", "tenant")
 
-        // 6. Dynamic Start Destination (Only on fresh start to prevent resets)
         if (savedInstanceState == null) {
             val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
 
@@ -64,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             navController.graph = navGraph
         }
 
-        // 7. Setup Menus based on Role
+        // Setup Menus based on Role (UI only, doesn't affect navigation state)
         if (userRole.equals("Landlord", ignoreCase = true)) {
             binding.bottomNavigation.menu.clear()
             binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_landlord)
@@ -92,8 +91,8 @@ class MainActivity : AppCompatActivity() {
         // 9. Setup Navigation UI
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
-
-        // Standard Bottom Nav Click Listener (Removed buggy override)
+        
+        // Standard NavigationUI behavior
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             NavigationUI.onNavDestinationSelected(item, navController)
             return@setOnItemSelectedListener true
@@ -127,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showTenantHeader() {
         val currentHeader = if (binding.navView.headerCount > 0) binding.navView.getHeaderView(0) else null
-
+        
         // Check if we need to swap the header OR if the menu is missing
         if (currentHeader == null || currentHeader.id == R.id.nav_view_custom) {
             // We are switching FROM Profile TO Tenant (or initial load)
@@ -135,19 +134,17 @@ class MainActivity : AppCompatActivity() {
                 binding.navView.removeHeaderView(currentHeader)
             }
             val newHeader = binding.navView.inflateHeaderView(R.layout.nav_tenant_header_main)
-            setupHeader(newHeader)
-
-            // RESTORE Standard Menu (Critical Fix from Code 3)
+            setupUserName(newHeader)
+            
+            // RESTORE Standard Menu
             binding.navView.menu.clear()
             binding.navView.inflateMenu(R.menu.nav_drawer_menu_tenant)
-
+            
         } else {
-            // Header is already correct, but ensure MENU is visible
-            if (binding.navView.menu.size() == 0) {
-                binding.navView.inflateMenu(R.menu.nav_drawer_menu_tenant)
-            }
-            // Even if header exists, refresh data (name/pic might have changed)
-            setupHeader(currentHeader)
+             // Header is already correct (Tenant Header), but CHECK THE MENU
+             if (binding.navView.menu.size() == 0) {
+                 binding.navView.inflateMenu(R.menu.nav_drawer_menu_tenant)
+             }
         }
     }
 
