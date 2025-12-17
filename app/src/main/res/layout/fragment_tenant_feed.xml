@@ -43,28 +43,27 @@
 
                 <ImageView
                     android:id="@+id/iv_logo"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_tgm_logo" />
+                    android:src="@drawable/ic_tenant_app_logo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="6dp"
                     android:fontFamily="serif"
                     android:text="TGM"
-                    android:textColor="#0D0D60"
+                    android:textColor="@color/dark_blue"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:fontFamily="sans-serif-light"
                     android:text="Rentify"
-                    android:textColor="#007FA3"
+                    android:textColor="@color/silk_blue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -78,8 +77,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_menu"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                app:strokeColor="@color/app_blue"
-                app:strokeWidth="2dp"
                 tools:src="@tools:sample/avatars" />
 
             <TextView

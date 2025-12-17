@@ -1,6 +1,7 @@
 package com.example.myapplication.repository
 
 import android.content.Context
+import android.util.Log
 import com.example.myapplication.model.SavedProperty
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -16,9 +17,24 @@ class TenantSavedPropertyRepository(private val context: Context) {
                     onResult(emptyList())
                     return@addSnapshotListener
                 }
-                // Firestore automatically maps fields if names match exactly
+
                 val properties = snapshot.documents.mapNotNull { doc ->
-                    doc.toObject(SavedProperty::class.java)
+                    try {
+                        // --- FIX: MANUAL MAPPING (Bypasses the @DocumentId crash) ---
+                        // We read fields one by one instead of using toObject()
+                        SavedProperty(
+                            id = doc.id,
+                            userId = doc.getString("userId") ?: "",
+                            propertyId = doc.getString("propertyId") ?: "",
+                            title = doc.getString("title") ?: "",
+                            location = doc.getString("location") ?: "",
+                            imageUrl = doc.getString("imageUrl") ?: "",
+                            rentAmount = doc.getDouble("rentAmount") ?: 0.0
+                        )
+                    } catch (e: Exception) {
+                        Log.e("SavedPropRepo", "Error mapping document: ${doc.id}", e)
+                        null
+                    }
                 }
                 onResult(properties)
             }
