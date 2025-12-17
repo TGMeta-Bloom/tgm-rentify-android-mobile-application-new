@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.example.myapplication.view.TenantFeedFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_tenant_feed">
+        <action
+            android:id="@+id/action_feedFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_myPostsFragment"
+            app:destination="@id/myPostsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.example.myapplication.view.TenantAddPostFragment"
+        android:label="Add Post"
+        tools:layout="@layout/fragment_tenant_add_post" />
+
+    <fragment
+        android:id="@+id/myPostsFragment"
+        android:name="com.example.myapplication.view.TenantMyPostsFragment"
+        android:label="My Posts"
+        tools:layout="@layout/fragment_tenant_my_posts" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myapplication.view.ProfileFragment"
+        android:label="Profile">
+        <action
+            android:id="@+id/action_profileFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/LandlordAddPropertyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_saved_properties"
+        android:name="com.example.myapplication.view.TenantSavedPropertyFragment"
+        android:label="Saved Properties"
+        tools:layout="@layout/fragment_tenant_saved_properties" />
+
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.myapplication.view.TenantLibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_tenant_library" />
+
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.example.myapplication.view.TenantAnalyticsFragment"
+        android:label="Analytics"
+        tools:layout="@layout/fragment_tenant_analytics" />
+
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.myapplication.view.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_router_container">
+        <action
+            android:id="@+id/action_dashboard_to_details"
+            app:destination="@id/LandlordPropertyDetailsFragment" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_landlord_details"
+        app:destination="@id/LandlordPropertyDetailsFragment" />
+
+    <fragment
+        android:id="@+id/LandlordDashboardFragment"
+        android:name="com.example.myapplication.view.LandlordDashboardFragment"
+        android:label="fragment_landlord_dashboard"
+        tools:layout="@layout/fragment_landlord_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_details"
+            app:destination="@id/LandlordPropertyDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertyDetailsFragment"
+        android:name="com.example.myapplication.view.LandlordPropertyDetailsFragment"
+        android:label="fragment_property_details"
+        tools:layout="@layout/fragment_landlord_property_details">
+        <argument
+            android:name="property"
+            app:argType="com.example.myapplication.model.Property" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordAddPropertyFragment"
+        android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
+        android:label="fragment_landlord_add_property"
+        tools:layout="@layout/fragment_landlord_add_property">
+        <action
+            android:id="@+id/action_LandlordAddPropertyFragment_to_LandlordDashboardFragment"
+            app:destination="@id/LandlordDashboardFragment"
+            app:popUpTo="@id/LandlordDashboardFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_LandlordAddPropertyFragment_to_LandlordPostPropertyFormFragment"
+            app:destination="@id/LandlordPostPropertyFormFragment" />
+        <action
+            android:id="@+id/action_LandlordAddPropertyFragment_to_LandlordPropertiesFragment"
+            app:destination="@id/LandlordPropertiesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPostPropertyFormFragment"
+        android:name="com.example.myapplication.view.LandlordPostPropertyFormFragment"
+        android:label="fragment_landlord_post_property_form"
+        tools:layout="@layout/fragment_landlord_post_property_form">
+        <action
+            android:id="@+id/action_LandlordPostPropertyFormFragment_to_LandlordPostPropertySuccessFragment"
+            app:destination="@id/LandlordPostPropertySuccessFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPostPropertySuccessFragment"
+        android:name="com.example.myapplication.view.LandlordPostPropertySuccessFragment"
+        android:label="fragment_landlord_post_property_success"
+        tools:layout="@layout/fragment_landlord_post_property_success">
+        <action
+            android:id="@+id/action_LandlordPostPropertySuccessFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/LandlordAddPropertyFragment"
+            app:popUpTo="@id/LandlordAddPropertyFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_LandlordPostPropertySuccessFragment_to_LandlordPropertiesFragment"
+            app:destination="@id/LandlordPropertiesFragment"
+            app:popUpTo="@id/LandlordPropertiesFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertiesFragment"
+        android:name="com.example.myapplication.view.LandlordMyPropertiesFragment"
+        android:label="fragment_landlord_properties"
+        tools:layout="@layout/fragment_landlord_my_properties">
+        <action
+            android:id="@+id/action_LandlordPropertiesFragment_to_LandlordPropertyEditFormFragment"
+            app:destination="@id/LandlordPropertyEditFormFragment" />
+        <action
+            android:id="@+id/action_LandlordPropertiesFragment_to_LandlordPropertyDeleteConfirmFragment"
+            app:destination="@id/LandlordPropertyDeleteConfirmFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertyEditFormFragment"
+        android:name="com.example.myapplication.view.LandlordPropertyEditFormFragment"
+        android:label="fragment_landlord_property_edit_form"
+        tools:layout="@layout/fragment_landlord_property_edit_form">
+        <action
+            android:id="@+id/action_LandlordPropertyEditFormFragment_to_LandlordPropertyEditSuccessFragment"
+            app:destination="@id/LandlordPropertyEditSuccessFragment"
+            app:popUpTo="@id/LandlordPropertiesFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertyEditSuccessFragment"
+        android:name="com.example.myapplication.view.LandlordPropertyEditSuccessFragment"
+        android:label="fragment_landlord_property_edit_success"
+        tools:layout="@layout/fragment_landlord_property_edit_success">
+        <action
+            android:id="@+id/action_LandlordPropertyEditSuccessFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/LandlordAddPropertyFragment"
+            app:popUpTo="@id/LandlordAddPropertyFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_LandlordPropertyEditSuccessFragment_to_LandlordPropertiesFragment"
+            app:destination="@id/LandlordPropertiesFragment"
+            app:popUpTo="@id/LandlordPropertiesFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertyDeleteConfirmFragment"
+        android:name="com.example.myapplication.view.LandlordPropertyDeleteConfirmFragment"
+        android:label="fragment_landlord_property_delete_confirm"
+        tools:layout="@layout/fragment_landlord_property_delete_confirm">
+        <action
+            android:id="@+id/action_LandlordPropertyDeleteConfirmFragment_to_LandlordPropertyDeleteSuccessFragment"
+            app:destination="@id/LandlordPropertyDeleteSuccessFragment"
+            app:popUpTo="@id/LandlordPropertiesFragment"
+            app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_LandlordPropertyDeleteConfirmFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/LandlordAddPropertyFragment"
+            app:popUpTo="@id/LandlordAddPropertyFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/LandlordPropertyDeleteSuccessFragment"
+        android:name="com.example.myapplication.view.LandlordPropertyDeleteSuccessFragment"
+        android:label="fragment_landlord_property_delete_success"
+        tools:layout="@layout/fragment_landlord_property_delete_success">
+        <action
+            android:id="@+id/action_LandlordPropertyDeleteSuccessFragment_to_LandlordPropertiesFragment"
+            app:destination="@id/LandlordPropertiesFragment"
+            app:popUpTo="@id/LandlordPropertiesFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_LandlordPropertyDeleteSuccessFragment_to_LandlordAddPropertyFragment"
+            app:destination="@id/LandlordAddPropertyFragment"
+            app:popUpTo="@id/LandlordAddPropertyFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/landlordAddPropertyFragment"
+        android:name="com.example.myapplication.view.LandlordAddPropertyFragment"
+        android:label="Add Property"
+        tools:layout="@layout/fragment_landlord_add_property" />
+
+</navigation>

@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TGMRentify" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- System Bar Colors -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+
+        <!-- Navigation Bar Settings -->
+        <item name="android:navigationBarColor">@color/app_navbar_blue</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- Default Screen Background -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+
+        <!--  Theme to prevent accidental darkening -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
+
+        <!-- Text color for status bar icons (true = dark icons, false = light icons) -->
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.TGMRentify" parent="Base.Theme.TGMRentify" />
+</resources>

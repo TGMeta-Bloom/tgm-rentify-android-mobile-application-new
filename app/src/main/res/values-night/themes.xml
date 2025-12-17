@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.TGMRentify" parent="Theme.Material3.Light.NoActionBar" tools:targetApi="29">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/material_dynamic_secondary30</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Enable Force Dark to invert hardcoded HEX colors -->
+        <item name="android:forceDarkAllowed">true</item>
+
+        <item name="android:statusBarColor">@color/app_blue</item>
+        <item name="android:navigationBarColor">@color/app_navbar_blue</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+
+        <!-- Ensure default background is dark (if not hardcoded) -->
+        <item name="android:windowBackground">@color/screen_background</item>
+        <item name="android:colorBackground">@color/screen_background</item>
+    </style>
+
+    <style name="Theme.TGMRentify" parent="Base.Theme.TGMRentify" />
+</resources>

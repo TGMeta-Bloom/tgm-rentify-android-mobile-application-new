@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- FIX: Use @android:color/white (System White) instead of @color/white -->
+    <!-- This ensures the text stays White even though we swapped @color/white to Black for Dark Mode backgrounds -->
+    
+    <!-- Selected State -->
+    <item android:state_selected="true" android:color="@android:color/white" />
+
+    <!-- Hovered State -->
+    <item android:state_hovered="true" android:color="@android:color/white" />
+
+    <!-- Default State -->
+    <item android:color="@android:color/white" />
+</selector>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/myPostsFragment"
+            android:icon="@drawable/ic_tenant_post"
+            android:title="My Posts" />
+        <item
+            android:id="@+id/nav_saved_properties"
+            android:icon="@drawable/ic_tenant_saved_properties"
+            android:title="Saved Properties" />
+        <item
+            android:id="@+id/libraryFragment"
+            android:icon="@drawable/ic_tenant_library"
+            android:title="Library" />
+        <item
+            android:id="@+id/analyticsFragment"
+            android:icon="@drawable/ic_tenant_analytics"
+            android:title="Analytics" />
+    </group>
+
+</menu>

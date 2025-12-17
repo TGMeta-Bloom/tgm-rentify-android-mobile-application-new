@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Selected State: White Underline Indicator -->
+    <item android:state_checked="true">
+        <layer-list>
+            <!-- 
+                Draws a white line.
+                gravity="bottom|center_horizontal" centers it.
+                android:bottom="10dp" lifts it UP from the bottom edge, placing it closer to the icon.
+            -->
+            <item android:gravity="bottom|center_horizontal" android:bottom="10dp">
+                <shape android:shape="rectangle">
+                    <size android:width="30dp" android:height="3dp"/>
+                    <solid android:color="@color/white"/>
+                    <corners android:radius="2dp"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    
+    <!-- Default State: Transparent -->
+    <item android:drawable="@android:color/transparent" />
+</selector>
