@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class TenantFeedFragment : Fragment() {
 
     private var _binding: FragmentTenantFeedBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var viewModel: TenantFeedViewModel
@@ -46,12 +46,10 @@ class TenantFeedFragment : Fragment() {
 
         // 4. Observe Data from ViewModel
         viewModel.feedPosts.observe(viewLifecycleOwner) { posts ->
-            if (posts.isEmpty()) {
-                Log.d("TenantFeed", "No posts found in Feed.")
-            } else {
-                Log.d("TenantFeed", "Loaded ${posts.size} posts.")
+            // Safety check: ensure binding is valid before using it
+            if (_binding != null) {
+                adapter.submitList(posts)
             }
-            adapter.submitList(posts)
         }
 
         // 5. Navigation Logic
@@ -83,7 +81,10 @@ class TenantFeedFragment : Fragment() {
     private fun loadUserProfile() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId == null) {
-            binding.tvGreeting.text = "Hi Guest!"
+            // Safety Check 1
+            if (_binding != null) {
+                binding.tvGreeting.text = "Hi Guest!"
+            }
             return
         }
 
@@ -92,6 +93,10 @@ class TenantFeedFragment : Fragment() {
         // Fetch user document
         db.collection("users").document(userId).get()
             .addOnSuccessListener { document ->
+                // --- CRITICAL FIX: Check if binding is null before updating UI ---
+                // If the user left the screen before this loaded, _binding will be null.
+                if (_binding == null) return@addOnSuccessListener
+
                 if (document != null && document.exists()) {
                     // A. Update Name
                     val firstName = document.getString("firstName") ?: "User"
@@ -99,29 +104,34 @@ class TenantFeedFragment : Fragment() {
 
                     // B. Update Profile Picture
                     val imageUrl = document.getString("profileImageUrl")
-                    Log.d("TenantFeed", "Fetched Profile URL: '$imageUrl'")
 
                     if (!imageUrl.isNullOrEmpty()) {
-                        Glide.with(this)
-                            .load(imageUrl)
-                            .placeholder(R.drawable.ic_tenant_profile_placeholder) // Ensure this exists
-                            .error(R.drawable.ic_tenant_profile_placeholder)
-                            .circleCrop()
-                            .into(binding.ivProfileAvatar)
+                        // Ensure Fragment is attached to context for Glide
+                        if (isAdded && context != null) {
+                            Glide.with(this)
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_tenant_profile_placeholder)
+                                .error(R.drawable.ic_tenant_profile_placeholder)
+                                .circleCrop()
+                                .into(binding.ivProfileAvatar)
+                        }
                     } else {
-                        // If URL is empty/null, explicitly set placeholder
                         binding.ivProfileAvatar.setImageResource(R.drawable.ic_tenant_profile_placeholder)
                     }
                 }
             }
             .addOnFailureListener { e ->
                 Log.e("TenantFeed", "Error loading profile", e)
-                binding.tvGreeting.text = "Hi User!"
+                // Safety Check 2
+                if (_binding != null) {
+                    binding.tvGreeting.text = "Hi User!"
+                }
             }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Clean up binding to prevent memory leaks
         _binding = null
     }
 }

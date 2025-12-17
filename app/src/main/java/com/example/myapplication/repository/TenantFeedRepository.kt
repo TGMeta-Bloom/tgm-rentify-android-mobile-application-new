@@ -123,13 +123,60 @@ class TenantFeedRepository(private val context: Context) {
             }
     }
 
-    // --- 5. UPDATE HELPFUL COUNT (New Addition) ---
+    // --- 5. UPDATE HELPFUL COUNT ---
     fun updateHelpfulCount(postId: String, newCount: Int) {
         db.collection("posts").document(postId)
             .update("helpfulCount", newCount)
             .addOnFailureListener { e ->
                 Log.e("Repository", "Error updating helpful count", e)
             }
+    }
+
+    // --- 6. CHECK IF SAVED (For Property Details Page) ---
+    fun isPropertySaved(propertyId: String, userId: String, onResult: (Boolean) -> Unit) {
+        // We use a unique ID "userId_propertyId" so we can find it instantly without a query
+        val uniqueSaveId = "${userId}_${propertyId}"
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .get()
+            .addOnSuccessListener { doc ->
+                onResult(doc.exists())
+            }
+            .addOnFailureListener {
+                onResult(false)
+            }
+    }
+
+    // --- 7. SAVE PROPERTY (Bookmark) ---
+    fun saveProperty(user: User, property: TenantPost, onResult: (Boolean) -> Unit) {
+        // Create the unique ID
+        val uniqueSaveId = "${user.userId}_${property.id}"
+
+        // Create data object matching your SavedProperty model
+        val savedData = hashMapOf(
+            "id" to uniqueSaveId,             // Matches @DocumentId
+            "userId" to user.userId,          // Required for your query
+            "propertyId" to property.id,
+            "title" to (property.caption.take(50) ?: "Property"),
+            "location" to "Colombo",          // Default or fetch from property
+            "imageUrl" to property.postImageUrl,
+            "rentAmount" to 0.0               // Default or fetch
+        )
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .set(savedData)
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
+    }
+
+    // --- 8. UNSAVE PROPERTY ---
+    fun unsaveProperty(userId: String, propertyId: String, onResult: (Boolean) -> Unit) {
+        val uniqueSaveId = "${userId}_${propertyId}"
+
+        db.collection("saved_properties").document(uniqueSaveId)
+            .delete()
+            .addOnSuccessListener { onResult(true) }
+            .addOnFailureListener { onResult(false) }
     }
 
     // --- HELPER: Parse Snapshot ---
